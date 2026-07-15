@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ЁБЫЧ SLOTS | FINAL EDITION</title>
+    <title>ЁБЫЧ SLOTS | FINAL PRO</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
@@ -32,11 +32,10 @@
 
         .user-section { display: flex; align-items: center; gap: 10px; }
         .user-nickname { 
-            color: #888; font-size: 11px; text-transform: uppercase; 
-            border-bottom: 1px solid var(--danger); cursor: pointer; 
-            transition: 0.3s;
+            color: #fff; font-size: 11px; text-transform: uppercase; 
+            border-bottom: 1px solid #ffffff; cursor: pointer; /* БЕЛАЯ ЛИНИЯ */
+            padding-bottom: 2px;
         }
-        .user-nickname:hover { color: var(--danger); }
         
         .balance-frame { 
             background: #16161c; padding: 8px 15px; border-radius: 10px; border: 1px solid #222; 
@@ -44,7 +43,7 @@
         }
         .bal-val { font-weight: 400; color: #ffffff; font-size: 14px; }
 
-        /* Всплывающее уведомление баланса (Всегда белое, снизу) */
+        /* Всплывающее уведомление баланса (Белое, снизу) */
         .bal-float {
             position: absolute; left: 50%; transform: translateX(-50%);
             bottom: -30px; color: #ffffff !important; font-weight: 700; font-size: 13px;
@@ -79,13 +78,18 @@
         .symbol { height: 65px; display: flex; align-items: center; justify-content: center; }
         .symbol img { width: 90%; max-width: 40px; border-radius: 50%; object-fit: cover; }
 
-        /* --- UPGRADER --- */
-        .visual-box { position: relative; width: 300px; height: 300px; margin: 0 auto 20px; background: radial-gradient(circle, #1a1a24 0%, #050507 85%); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid #222; }
+        /* --- UPGRADER (УВЕЛИЧЕННЫЙ) --- */
+        .visual-box { 
+            position: relative; width: 380px; height: 380px; max-width: 95vw; max-height: 95vw;
+            margin: 0 auto 30px; background: radial-gradient(circle, #1e1e2d 0%, #050507 80%); 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            border: 1px solid #2a2a35; box-shadow: 0 0 50px rgba(255, 184, 0, 0.05);
+        }
         #upgradeCanvas { width: 100%; height: 100%; z-index: 2; position: relative; transform: rotate(-90deg); }
-        .upgrader-bg-icon { position: absolute; width: 150px; opacity: 0.15; z-index: 1; }
+        .upgrader-bg-icon { position: absolute; width: 180px; opacity: 0.12; z-index: 1; }
         .orb-path { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; }
-        .orb-triangle { position: absolute; top: -10px; left: calc(50% - 15px); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 25px solid #fff; filter: drop-shadow(0 0 10px var(--accent)); }
-        #upChanceCenter { position: absolute; font-size: 38px; font-weight: 900; z-index: 3; color: #fff; text-shadow: 0 0 20px #000; }
+        .orb-triangle { position: absolute; top: -15px; left: calc(50% - 18px); width: 0; height: 0; border-left: 18px solid transparent; border-right: 18px solid transparent; border-top: 30px solid #fff; filter: drop-shadow(0 0 15px var(--accent)); }
+        #upChanceCenter { position: absolute; font-size: 50px; font-weight: 900; z-index: 3; color: #fff; text-shadow: 0 0 30px #000; }
 
         /* --- ROCKET --- */
         .canvas-area { background: #000; border-radius: 20px; height: 420px; position: relative; overflow: hidden; border: 1px solid #1c1c24; margin-bottom: 15px; background-image: radial-gradient(#111 1px, transparent 1px); background-size: 40px 40px; }
@@ -94,7 +98,7 @@
         .rocket-img { width: 100%; height: 100%; background: url('rocket.png') no-repeat center; background-size: contain; }
         .rocket-fly-away { transition: transform 2.5s cubic-bezier(0.4, 0, 1, 1), bottom 2.5s cubic-bezier(0.4, 0, 1, 1) !important; transform: translateY(-1300px) translateX(400px) rotate(60deg) scale(0.2) !important; }
 
-        /* --- UI --- */
+        /* --- BUTTONS & INPUTS --- */
         .controls-box { width: 100%; max-width: 400px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
         .auth-input { width: 100%; background: #16161c; border: 1px solid #222; color: #fff; padding: 16px; border-radius: 14px; text-align: center; font-size: 16px; font-family: 'Montserrat'; }
         .btn-main { width: 100%; padding: 20px; background: linear-gradient(135deg, var(--accent) 0%, #ff8a00 100%); border: none; border-radius: 14px; color: #000; font-weight: 900; font-size: 15px; cursor: pointer; text-transform: uppercase; }
@@ -127,7 +131,6 @@
     <div class="tab-link" onclick="switchTab('rocket', this)">Ракетка</div>
 </div>
 
-<!-- ВХОД -->
 <div class="modal-overlay" id="authModal" style="display: flex;">
     <div class="modal-card">
         <h2>ВХОД</h2>
@@ -138,7 +141,6 @@
 </div>
 
 <div class="container">
-    <!-- SLOTS -->
     <div id="slots" class="page active">
         <div class="reels-area">
             <div class="win-frame"></div>
@@ -156,7 +158,6 @@
         </div>
     </div>
 
-    <!-- UPGRADER -->
     <div id="upgrader" class="page">
         <div class="visual-box">
             <img src="icon.png" class="upgrader-bg-icon">
@@ -166,17 +167,16 @@
         </div>
         <div class="controls-box">
             <input type="number" id="upAmount" value="500" class="auth-input" oninput="drawUpgrade()">
-            <input type="range" id="upRange" min="1" max="85" value="50" oninput="drawUpgrade()" style="width:100%; margin: 15px 0;">
-            <div id="upPayout" style="color:var(--success); font-size:22px; font-weight:900; text-align:center; margin-bottom:10px;">950 руб.</div>
+            <input type="range" id="upRange" min="1" max="85" value="50" oninput="drawUpgrade()" style="width:100%; margin: 15px 0; accent-color: var(--accent);">
+            <div id="upPayout" style="color:var(--success); font-size:24px; font-weight:900; text-align:center; margin-bottom:15px;">950 руб.</div>
             <button class="btn-main" id="upBtn" onclick="startUpgrade()">Улучшить</button>
         </div>
     </div>
 
-    <!-- ROCKET -->
     <div id="rocket" class="page">
         <div class="canvas-area">
             <div id="crashMultiplier">x1.00</div>
-            <div id="rocketContainer" class="rocket-container"><div class="rocket-img" id="rocketImg"></div></div>
+            <div id="rocketContainer" class="rocket-container"><div class="rocket-img"></div></div>
         </div>
         <div class="controls-box">
             <input type="number" id="crashBet" value="100" class="auth-input">
@@ -218,10 +218,7 @@
     }
     checkAuth();
 
-    function logout() {
-        localStorage.removeItem('ebych_session_name');
-        location.reload();
-    }
+    function logout() { localStorage.removeItem('ebych_session_name'); location.reload(); }
 
     function updateUI(diff = 0) {
         if(!user) return;
@@ -292,23 +289,23 @@
         document.getElementById('upChanceCenter').innerText = c+'%';
         document.getElementById('upPayout').innerText = Math.floor(a*(100/c*0.95)) + " руб.";
         ctx.clearRect(0,0,400,400);
-        ctx.beginPath(); ctx.arc(200,200,180,0,Math.PI*2); ctx.strokeStyle='#1a1a20'; ctx.lineWidth=25; ctx.stroke();
-        ctx.beginPath(); ctx.arc(200,200,180,0, (Math.PI*2)*(c/100)); ctx.strokeStyle='#ffb800'; ctx.lineWidth=25; ctx.stroke();
+        ctx.beginPath(); ctx.arc(200,200,180,0,Math.PI*2); ctx.strokeStyle='#1a1a20'; ctx.lineWidth=28; ctx.stroke();
+        ctx.beginPath(); ctx.arc(200,200,180,0, (Math.PI*2)*(c/100)); ctx.strokeStyle='#ffb800'; ctx.lineWidth=28; ctx.stroke();
     }
 
     async function startUpgrade() {
         const a = parseInt(document.getElementById('upAmount').value), c = parseInt(document.getElementById('upRange').value);
         if(!a || a > user.balance || a <= 0) return;
         lockUI(true); await sync(-a);
-        const target = (360 * 5) + (Math.random() * 360);
+        const target = (360 * 6) + (Math.random() * 360);
         const orb = document.getElementById('orbPath');
-        orb.style.transition = 'transform 3.5s cubic-bezier(0.15, 0, 0.1, 1)';
+        orb.style.transition = 'transform 4s cubic-bezier(0.15, 0, 0.1, 1)';
         orb.style.transform = `rotate(${target}deg)`;
         setTimeout(async () => {
             if((target % 360) <= (c/100 * 360)) await sync(Math.floor(a*(100/c*0.95)));
             orb.style.transition = 'none'; orb.style.transform = 'rotate(0deg)';
             lockUI(false);
-        }, 4000);
+        }, 4500);
     }
 
     // --- ROCKET ---
@@ -319,7 +316,6 @@
             if(!b || b > user.balance || b <= 0) return;
             lockUI(true); await sync(-b);
             crA = true; crCan = true; crM = 1.0;
-            // УСЛОЖНЕННАЯ МАТЕМАТИКА (House Edge)
             let boom = (96 / (100 - Math.random() * 99.5)); 
             if(boom < 1) boom = 1.0;
             btn.innerText = "ЗАБРАТЬ"; btn.classList.add('btn-danger'); btn.disabled = false;
@@ -332,7 +328,7 @@
                     document.getElementById('crashMultiplier').innerText = "УЛЕТЕЛА!";
                     r.classList.add('rocket-fly-away');
                     btn.disabled = true;
-                    setTimeout(resetRocket, 2500);
+                    setTimeout(resetRocket, 3000);
                 }
             }, 50);
         } else {
