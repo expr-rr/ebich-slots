@@ -3,134 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ЁБЫЧ SLOTS | FIXED AUTH</title>
+    <title>ЁБЫЧ SLOTS | FINAL STABLE</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
-            --bg: #050507;
-            --panel: #0f0f13;
-            --accent: #ffb800;
-            --success: #00ff85;
-            --danger: #ff4b4b;
-            --text: #ffffff;
-            --overlay: rgba(0, 0, 0, 0.98);
+            --bg: #050507; --panel: #0f0f13; --accent: #ffb800; --success: #00ff85;
+            --danger: #ff4b4b; --text: #ffffff; --overlay: rgba(0, 0, 0, 0.98);
         }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Montserrat', sans-serif; margin: 0; padding: 0; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
 
-        body {
-            background-color: var(--bg); color: var(--text);
-            font-family: 'Montserrat', sans-serif;
-            margin: 0; padding: 0; overflow-x: hidden;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        /* --- HEADER --- */
-        header {
-            position: fixed; top: 0; width: 100%; height: 70px;
-            background: rgba(15, 15, 19, 0.98); backdrop-filter: blur(10px);
-            border-bottom: 1px solid #1c1c21;
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 0 40px; box-sizing: border-box; z-index: 1000;
-        }
-
+        header { position: fixed; top: 0; width: 100%; height: 70px; background: rgba(15, 15, 19, 0.98); backdrop-filter: blur(10px); border-bottom: 1px solid #1c1c21; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; box-sizing: border-box; z-index: 1000; }
         .logo-container { display: flex; align-items: center; gap: 15px; }
-        .site-icon { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); background: #111; }
+        .site-icon { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); background: #111; }
         .logo { font-weight: 900; font-size: 18px; letter-spacing: 1px; text-transform: uppercase; }
-        
+        .logo span { color: var(--accent); }
+
         .nav-tabs { display: flex; gap: 25px; transition: 0.3s; }
         .nav-tabs.disabled { opacity: 0.1; pointer-events: none; }
         .tab-link { color: #444; cursor: pointer; font-weight: 700; text-transform: uppercase; font-size: 11px; transition: 0.3s; padding: 5px 0; }
-        .tab-link:hover { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
+        .tab-link:hover { color: var(--accent); }
         .tab-link.active { color: var(--text); border-bottom: 2px solid var(--accent); }
 
-        .user-block { display: flex; align-items: center; gap: 12px; border: 1px solid #25252b; padding: 6px 15px; border-radius: 12px; cursor: pointer; position: relative; transition: 0.2s; }
+        .user-block { display: flex; align-items: center; gap: 12px; border: 1px solid #25252b; padding: 6px 15px; border-radius: 12px; cursor: pointer; transition: 0.2s; position: relative; }
         .user-block:hover { border-color: var(--accent); }
         .user-name { font-weight: 700; color: var(--accent); font-size: 13px; border-right: 1px solid #333; padding-right: 12px; text-transform: uppercase; }
         .bal-val { font-weight: 400; color: #fff; font-size: 15px; }
 
-        /* --- AUTH MODAL (ИСПРАВЛЕННЫЙ ЦЕНТР) --- */
-        .modal-overlay { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: var(--overlay); display: none; z-index: 2000; 
-            justify-content: center; align-items: center; backdrop-filter: blur(10px); 
-        }
-        .modal-card { 
-            background: var(--panel); border: 1px solid #222; width: 90%; max-width: 400px; 
-            padding: 50px 40px; border-radius: 35px; text-align: center; 
-            box-shadow: 0 0 60px rgba(0,0,0,0.5); 
-            display: flex; flex-direction: column; align-items: center;
-        }
+        .bal-diff { position: absolute; left: 50%; transform: translateX(-50%); font-size: 14px; color: #fff; pointer-events: none; opacity: 0; white-space: nowrap; z-index: 100; }
+        .bal-diff.up { bottom: 120%; animation: floatUp 1s forwards; }
+        .bal-diff.down { top: 120%; animation: floatDown 1s forwards; }
+        @keyframes floatUp { 0% { opacity: 0; transform: translate(-50%, 10px); } 20% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, -25px); } }
+        @keyframes floatDown { 0% { opacity: 0; transform: translate(-50%, -10px); } 20% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, 25px); } }
 
-        .auth-form { width: 100%; display: flex; flex-direction: column; gap: 10px; }
-        .auth-input { 
-            width: 100%; background: #000; border: 1px solid #222; color: #fff; 
-            padding: 18px; border-radius: 15px; outline: none; 
-            font-family: 'Montserrat'; text-align: center; font-size: 16px;
-            box-sizing: border-box;
-        }
-        .auth-input:focus { border-color: var(--accent); }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--overlay); display: none; z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(10px); }
+        .modal-card { background: var(--panel); border: 1px solid #222; width: 90%; max-width: 400px; padding: 40px; border-radius: 35px; text-align: center; box-shadow: 0 0 60px rgba(0,0,0,0.5); }
+        
+        .auth-input { width: 100%; background: #000; border: 1px solid #222; color: #fff; padding: 18px; border-radius: 15px; outline: none; font-family: 'Montserrat'; text-align: center; font-size: 16px; box-sizing: border-box; margin-bottom: 12px; }
+        .btn-auth { width: 100%; padding: 18px; background: var(--accent); color: #000; border: none; border-radius: 15px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 10px; transition: 0.3s; }
+        
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 25px 0; }
+        .stat-item { background: #07070a; padding: 15px; border-radius: 15px; border: 1px solid #1c1c24; }
+        .stat-label { font-size: 10px; color: #555; text-transform: uppercase; margin-bottom: 5px; }
 
-        .btn-auth { 
-            width: 100%; padding: 18px; background: var(--accent); color: #000; 
-            border: none; border-radius: 15px; font-weight: 900; 
-            cursor: pointer; text-transform: uppercase; margin-top: 15px;
-            transition: 0.3s;
-        }
-        .btn-auth:hover { transform: scale(1.02); filter: brightness(1.1); }
-
-        /* --- LAYOUT --- */
         .container { margin-top: 100px; display: flex; justify-content: center; padding-bottom: 50px; }
         .page { display: none; width: 98%; max-width: 1400px; animation: fadeIn 0.4s ease; }
         .page.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* --- GAMES --- */
-        .slots-card, .upgrade-card, .crash-card { background: var(--panel); border-radius: 30px; padding: 40px; border: 1px solid #1c1c24; text-align: center; }
+        /* SLOTS */
         .reels-area { position: relative; display: flex; gap: 8px; justify-content: center; background: #000; padding: 15px; border-radius: 20px; margin-bottom: 30px; overflow: hidden; height: 450px; }
         .win-frame { position: absolute; top: 50%; left: 0; width: 100%; height: 150px; transform: translateY(-50%); border-top: 1px solid rgba(255, 184, 0, 0.4); border-bottom: 1px solid rgba(255, 184, 0, 0.4); background: rgba(255, 184, 0, 0.05); z-index: 10; pointer-events: none; }
         .reel { flex: 1; min-width: 80px; max-width: 160px; background: #07070a; border-radius: 8px; position: relative; overflow: hidden; }
-        .reel-strip { position: absolute; width: 100%; top: 0; will-change: transform; }
+        .reel-strip { position: absolute; width: 100%; top: 0; }
         .symbol { height: 150px; display: flex; align-items: center; justify-content: center; }
         .symbol img { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 1px solid #222; }
 
+        /* UPGRADER */
         .visual-box { position: relative; width: 400px; height: 400px; margin: 0 auto; }
         .upgrader-bg-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 260px; height: 260px; border-radius: 50%; object-fit: cover; opacity: 0.15; z-index: 0; }
         #upgradeCanvas { position: relative; z-index: 1; transform: rotate(-90deg); }
         .orb-path { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; }
         .orb-triangle { position: absolute; top: 10px; left: calc(50% - 15px); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 25px solid #fff; filter: drop-shadow(0 0 10px var(--accent)); }
 
+        /* ROCKET */
         .canvas-area { background: #000; border-radius: 20px; height: 650px; position: relative; overflow: hidden; border: 1px solid #1c1c24; background-image: radial-gradient(#222 1px, transparent 1px); background-size: 120px 120px; }
         #crashMultiplier { position: absolute; top: 60px; left: 50%; transform: translateX(-50%); font-size: 110px; font-weight: 900; z-index: 20; color: #fff; }
         .rocket-container { position: absolute; width: 280px; height: 280px; left: calc(50% - 140px); bottom: 20px; z-index: 5; transition: bottom 0.1s linear; }
         .rocket-img { width: 100%; height: 100%; background: url('rocket.png') no-repeat center center; background-size: contain; }
 
         .btn-main { padding: 22px; background: linear-gradient(135deg, var(--accent) 0%, #ff8a00 100%); border: none; border-radius: 18px; color: #000; font-weight: 900; font-size: 16px; cursor: pointer; transition: 0.2s; text-transform: uppercase; width: 100%; }
-        .btn-main:hover:not(:disabled) { transform: translateY(-2px); filter: brightness(1.1); }
 
         #winOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 5000; display: none; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; }
         .jackpot-text { font-size: 80px; font-weight: 900; color: var(--accent); text-shadow: 0 0 30px orange; animation: pulse 0.4s infinite alternate; }
         .win-amt-text { font-size: 50px; font-weight: 700; color: #fff; margin-top: 10px; }
         .coin { position: absolute; width: 35px; height: 35px; background: gold; border-radius: 50%; border: 2px solid orange; z-index: 4000; }
-        
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 25px 0; }
-        .stat-item { background: #07070a; padding: 15px; border-radius: 15px; border: 1px solid #1c1c24; }
-        .stat-label { font-size: 10px; color: #555; text-transform: uppercase; margin-bottom: 5px; }
-        .stat-value { font-weight: 900; font-size: 18px; }
-
-        @media (max-width: 900px) {
-            header { padding: 0 15px; } .logo, .user-name { font-size: 12px; } .nav-tabs { gap: 10px; } .tab-link { font-size: 9px; }
-            .upgrade-card, .crash-card { grid-template-columns: 1fr; padding: 20px; } .visual-box { width: 280px; height: 280px; }
-            .canvas-area { height: 400px; } .rocket-container { width: 150px; height: 150px; left: calc(50% - 75px); } #crashMultiplier { font-size: 50px; }
-        }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="logo-container">
-        <img src="icon.png" alt="Logo" class="site-icon">
-        <div class="logo">ЁБЫЧ <span>SLOTS</span></div>
-    </div>
+    <div class="logo-container"><img src="icon.png" alt="Icon" class="site-icon"><div class="logo">ЁБЫЧ <span>SLOTS</span></div></div>
     <div class="nav-tabs" id="navTabs">
         <div class="tab-link active" onclick="switchTab('slots', this)">Слоты</div>
         <div class="tab-link" onclick="switchTab('upgrader', this)">Апгрейдер</div>
@@ -142,66 +95,49 @@
     </div>
 </header>
 
-<!-- ОКНО ВХОДА (ИСПРАВЛЕНО) -->
 <div class="modal-overlay" id="authModal" style="display: flex;">
     <div class="modal-card">
-        <h2 style="margin-top:0; letter-spacing: 2px;">ВХОД</h2>
-        <div class="auth-form">
-            <input type="text" id="authEmail" class="auth-input" placeholder="ИМЯ ИГРОКА">
-            <input type="password" id="authPass" class="auth-input" placeholder="ПАРОЛЬ">
-            <button class="btn-auth" id="authBtn" onclick="handleAuth()">ВОЙТИ В ИГРУ</button>
-        </div>
-        <p style="font-size:10px; color:#444; margin-top:20px; line-height: 1.5;">Если вы заходите впервые, аккаунт будет создан автоматически с балансом 10,000 Р.</p>
+        <h2 style="margin-top:0">ВХОД / РЕГИСТРАЦИЯ</h2>
+        <input type="text" id="authName" class="auth-input" placeholder="ИМЯ ИГРОКА">
+        <input type="password" id="authPass" class="auth-input" placeholder="ПАРОЛЬ">
+        <button class="btn-auth" id="authBtn" onclick="handleAuth()">ИГРАТЬ</button>
     </div>
 </div>
 
-<!-- ОКНО ПРОФИЛЯ -->
 <div class="modal-overlay" id="profileModal" onclick="closeProfileOutside(event)">
     <div class="modal-card" onclick="event.stopPropagation()">
         <h2 style="margin-top:0">ПРОФИЛЬ</h2>
         <div class="stats-grid">
-            <div class="stat-item">
-                <div class="stat-label">Выиграно</div>
-                <div class="stat-value" style="color:var(--success)" id="statWon">0 Р</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-label">Слито</div>
-                <div class="stat-value" style="color:var(--danger)" id="statLost">0 Р</div>
-            </div>
+            <div class="stat-item"><div class="stat-label">Выиграно</div><div id="statWon" class="stat-value" style="color:var(--success)">0 Р</div></div>
+            <div class="stat-item"><div class="stat-label">Слито</div><div id="statLost" class="stat-value" style="color:var(--danger)">0 Р</div></div>
         </div>
-        <div id="depositArea"></div>
-        <button class="btn-auth" style="background:#111; color:#444; margin-top:20px" onclick="logout()">ВЫЙТИ ИЗ АККАУНТА</button>
+        <div style="width: 100%; border-top: 1px solid #222; padding-top: 20px;">
+            <label style="font-size: 10px; color: #555; text-transform: uppercase; margin-bottom: 5px; display: block; text-align: left;">Admin: Баланс</label>
+            <input type="number" id="adminBalance" class="auth-input" style="padding: 12px; font-size: 14px;" placeholder="Новая сумма">
+            <button class="btn-auth" onclick="setAdminBalance()" style="padding: 12px; font-size: 12px; background: #fff;">УСТАНОВИТЬ</button>
+        </div>
+        <div id="depositArea" style="margin-top: 20px; width: 100%;"></div>
+        <button class="btn-auth" style="background:#111; color:#444; margin-top:20px" onclick="logout()">ВЫЙТИ</button>
     </div>
 </div>
 
-<div id="winOverlay">
-    <div class="jackpot-text" id="jackTitle">JACKPOT</div>
-    <div class="win-amt-text" id="jackAmt">x256</div>
-</div>
+<div id="winOverlay"><div class="jackpot-text" id="jackTitle">JACKPOT</div><div class="win-amt-text" id="jackAmt">x256</div></div>
 
 <div class="container">
-    <!-- SLOTS -->
     <div id="slots" class="page active">
         <div class="slots-card">
             <div class="reels-area">
                 <div class="win-frame"></div>
-                <div class="reel"><div class="reel-strip"></div></div>
-                <div class="reel"><div class="reel-strip"></div></div>
-                <div class="reel"><div class="reel-strip"></div></div>
-                <div class="reel"><div class="reel-strip"></div></div>
-                <div class="reel"><div class="reel-strip"></div></div>
-                <div class="reel"><div class="reel-strip"></div></div>
-                <div class="reel"><div class="reel-strip"></div></div>
+                <div class="reel"><div class="reel-strip"></div></div><div class="reel"><div class="reel-strip"></div></div><div class="reel"><div class="reel-strip"></div></div><div class="reel"><div class="reel-strip"></div></div><div class="reel"><div class="reel-strip"></div></div><div class="reel"><div class="reel-strip"></div></div><div class="reel"><div class="reel-strip"></div></div>
             </div>
-            <div style="max-width:400px; margin: 0 auto;">
-                <label>Ставка</label>
-                <input type="number" id="slotBet" value="100" class="auth-input">
+            <div style="max-width:400px; margin: 0 auto; width: 100%;">
+                <label style="font-size:10px; color:#555; text-transform:uppercase; text-align:left; display:block;">Ставка</label>
+                <input type="number" id="slotBet" value="100" class="auth-input" style="margin-bottom:15px;">
                 <button class="btn-main" id="spinBtn" onclick="startSlots()">Крутить</button>
             </div>
         </div>
     </div>
 
-    <!-- UPGRADER -->
     <div id="upgrader" class="page">
         <div class="upgrade-card">
             <div class="visual-box">
@@ -210,31 +146,27 @@
                 <div class="orb-path" id="orbPath"><div class="orb-triangle"></div></div>
                 <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:40px; font-weight:900; z-index:2;" id="upChanceCenter">50%</div>
             </div>
-            <div style="display: flex; flex-direction: column; gap: 10px;">
-                <label>Сумма</label>
+            <div style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+                <label style="font-size:10px; color:#555; text-transform:uppercase; text-align:left; display:block;">Сумма</label>
                 <input type="number" id="upAmount" value="500" class="auth-input" oninput="drawUpgrade()">
-                <label>Шанс: <span id="upLabel">50%</span></label>
+                <label style="font-size:10px; color:#555; text-transform:uppercase; text-align:left; display:block;">Шанс: <span id="upLabel">50%</span></label>
                 <input type="range" id="upRange" min="1" max="75" value="50" oninput="drawUpgrade()" style="width:100%">
                 <div style="text-align:center; padding:20px; background:#000; border-radius:10px; margin:10px 0;">
-                    <div style="font-size:10px; color:#444">ВЫПЛАТА</div>
-                    <div id="upPayout" style="color:var(--success); font-size:24px; font-weight:900">950 Р</div>
+                    <div style="font-size:10px; color:#444">ВЫПЛАТА</div><div id="upPayout" style="color:var(--success); font-size:24px; font-weight:900">950 Р</div>
                 </div>
                 <button class="btn-main" id="upBtn" onclick="startUpgrade()">Улучшить</button>
             </div>
         </div>
     </div>
 
-    <!-- ROCKET -->
     <div id="rocket" class="page">
         <div class="crash-card">
             <div class="canvas-area" id="crashCanvasArea">
                 <div id="crashMultiplier">x1.00</div>
-                <div id="rocketContainer" class="rocket-container">
-                    <div class="rocket-img"></div>
-                </div>
+                <div id="rocketContainer" class="rocket-container"><div class="rocket-img"></div></div>
             </div>
-            <div style="display: flex; flex-direction: column; gap: 10px;">
-                <label>Ставка</label>
+            <div style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+                <label style="font-size:10px; color:#555; text-transform:uppercase; text-align:left; display:block;">Ставка</label>
                 <input type="number" id="crashBet" value="100" class="auth-input">
                 <button class="btn-main" id="crashBtn" onclick="toggleCrash()">Взлет</button>
             </div>
@@ -243,49 +175,42 @@
 </div>
 
 <script>
-    /* --- CONFIG SUPABASE --- */
     const SB_URL = 'https://gwtbnjoacgirwsbwnaan.supabase.co';
     const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd3dGJuam9hY2dpcndzYnduYWFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQwNjM0NTgsImV4cCI6MjA5OTYzOTQ1OH0.ga9HERWc7gXq9VWn8U5lpBon-YhwBjPWp5ENwUYyutU';
-    const supabaseClient = supabase.createClient(SB_URL, SB_KEY);
+    const sb = supabase.createClient(SB_URL, SB_KEY);
 
     let userProfile = null;
     let isGameRunning = false;
     let canCashOut = false;
     const textures = ['slot1.png', 'slot2.png', 'slot3.png', 'slot4.png'];
 
-    /* --- AUTH LOGIC (AUTO-REGISTER) --- */
     async function handleAuth() {
-        const btn = document.getElementById('authBtn');
-        const username = document.getElementById('authEmail').value.trim();
+        const username = document.getElementById('authName').value.trim();
         const password = document.getElementById('authPass').value;
-        if(username.length < 3 || password.length < 6) return alert("Логин от 3, пароль от 6 знаков");
+        const btn = document.getElementById('authBtn');
+        if(username.length < 2 || password.length < 6) return alert("Имя от 2, пароль от 6 знаков");
         
-        btn.disabled = true; btn.innerText = "ЗАГРУЗКА...";
-        const email = username.toLowerCase() + "@ebych.fake";
-        
-        // 1. Пробуем войти
-        let { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+        btn.disabled = true; btn.innerText = "ВХОД...";
+        const email = username.toLowerCase() + "@ebych.com";
+
+        let { data, error } = await sb.auth.signInWithPassword({ email, password });
         
         if(error) {
-            // 2. Если ошибка (аккаунта нет), пробуем создать
-            let { data: up, error: upError } = await supabaseClient.auth.signUp({ email, password });
-            if(upError) {
-                btn.disabled = false; btn.innerText = "ВОЙТИ В ИГРУ";
-                return alert("Ошибка: " + upError.message);
-            }
-            // 3. Создаем запись в профилях
-            await supabaseClient.from('profiles').insert([{ id: up.user.id, username: username, balance: 10000 }]);
-            alert("Аккаунт создан! Теперь нажмите кнопку входа еще раз.");
-            btn.disabled = false; btn.innerText = "ВОЙТИ В ИГРУ";
+            let { data: up, error: upError } = await sb.auth.signUp({ email, password });
+            if(upError) { btn.disabled = false; btn.innerText = "ИГРАТЬ"; return alert(upError.message); }
+            // СОЗДАЕМ ПРОФИЛЬ В БАЗЕ (Теперь с uuid)
+            await sb.from('profiles').insert([{ id: up.user.id, username: username, balance: 10000 }]);
+            alert("Аккаунт создан! Нажмите войти еще раз.");
+            btn.disabled = false; btn.innerText = "ИГРАТЬ";
         } else {
             location.reload();
         }
     }
 
     async function checkSession() {
-        const { data: { session } } = await supabaseClient.auth.getSession();
+        const { data: { session } } = await sb.auth.getSession();
         if(session) {
-            const { data: profile } = await supabaseClient.from('profiles').select('*').eq('id', session.user.id).single();
+            const { data: profile } = await sb.from('profiles').select('*').eq('id', session.user.id).single();
             if (profile) {
                 userProfile = profile;
                 document.getElementById('authModal').style.display = 'none';
@@ -296,48 +221,46 @@
     }
     checkSession();
 
-    function logout() { supabaseClient.auth.signOut(); location.reload(); }
+    function logout() { sb.auth.signOut(); location.reload(); }
 
-    /* --- DB SYNC --- */
+    async function setAdminBalance() {
+        const val = parseInt(document.getElementById('adminBalance').value);
+        if(isNaN(val)) return;
+        userProfile.balance = val;
+        await sb.from('profiles').update({ balance: val }).eq('id', userProfile.id);
+        updateUI();
+        document.getElementById('profileModal').style.display = 'none';
+    }
+
     async function syncDB(diff, won = 0, lost = 0) {
         if(!userProfile) return;
-        userProfile.balance += diff;
-        userProfile.total_won += won;
-        userProfile.total_lost += lost;
+        userProfile.balance += diff; userProfile.total_won += won; userProfile.total_lost += lost;
         updateUI(diff);
-        await supabaseClient.from('profiles').update({ 
-            balance: userProfile.balance, 
-            total_won: userProfile.total_won, 
-            total_lost: userProfile.total_lost 
-        }).eq('id', userProfile.id);
+        await sb.from('profiles').update({ balance: userProfile.balance, total_won: userProfile.total_won, total_lost: userProfile.total_lost }).eq('id', userProfile.id);
     }
 
     function updateUI(diff = 0) {
         if (diff !== 0) {
-            const frame = document.getElementById('userBlock');
             const float = document.createElement('div');
             float.className = `bal-diff ${diff > 0 ? 'up' : 'down'}`;
-            float.innerText = (diff > 0 ? '+' : '') + diff.toLocaleString() + ' Р';
-            frame.appendChild(float);
+            float.innerText = (diff > 0 ? '+' : '-') + Math.abs(diff).toLocaleString() + ' Р';
+            document.getElementById('userBlock').appendChild(float);
             setTimeout(() => float.remove(), 1000);
         }
         document.getElementById('balanceDisplay').innerText = Math.floor(userProfile.balance).toLocaleString() + " Р";
     }
 
-    /* --- PROFILE & DEPOSIT --- */
     function openProfile() {
         if (isGameRunning) return;
         document.getElementById('statWon').innerText = userProfile.total_won.toLocaleString() + " Р";
         document.getElementById('statLost').innerText = userProfile.total_lost.toLocaleString() + " Р";
         const dep = document.getElementById('depositArea');
-        dep.innerHTML = userProfile.balance < 1000 ? `<button class="btn-main" onclick="addMoney()">ПОЛУЧИТЬ 10,000 Р</button>` : `<p style="font-size:10px; color:#333; margin-top:20px;">Пополнение доступно при балансе менее 1,000 Р</p>`;
+        dep.innerHTML = userProfile.balance < 1000 ? `<button class="btn-main" onclick="addMoney()">ЗАБРАТЬ 10,000 Р</button>` : `<p style="font-size:10px; color:#333">Пополнение при < 1000 Р</p>`;
         document.getElementById('profileModal').style.display = 'flex';
     }
-    function closeProfileOutside(e) { if(e.target.id === 'profileModal') document.getElementById('profileModal').style.display = 'none'; }
-    function closeDeposit() { document.getElementById('profileModal').style.display = 'none'; }
-    async function addMoney() { await syncDB(10000); closeDeposit(); }
+    function closeProfileOutside(e) { if(e.target.classList.contains('modal-overlay')) document.getElementById('profileModal').style.display = 'none'; }
+    async function addMoney() { await syncDB(10000); document.getElementById('profileModal').style.display = 'none'; }
 
-    /* --- GAMES LOGIC --- */
     function lockUI(s) { isGameRunning = s; document.getElementById('navTabs').classList.toggle('disabled', s); }
     function switchTab(id, el) { if(isGameRunning) return; document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); document.querySelectorAll('.tab-link').forEach(l => l.classList.remove('active')); document.getElementById(id).classList.add('active'); el.classList.add('active'); if(id==='upgrader') setTimeout(drawUpgrade, 50); }
 
@@ -379,7 +302,7 @@
     let crashActive = false, crashMultiplier = 1.0, crashInterval;
     async function toggleCrash() { const bet = parseInt(document.getElementById('crashBet').value); if(!crashActive) { if(!bet || bet > userProfile.balance || bet <= 0) return; lockUI(true); await syncDB(-bet, 0, bet); crashActive = true; canCashOut = true; crashMultiplier = 1.0; let cp = (98 / (100 - Math.random() * 100)); document.getElementById('crashBtn').innerText = "ЗАБРАТЬ"; document.getElementById('crashBtn').classList.add('btn-danger'); let start = Date.now(); crashInterval = setInterval(() => { let elapsed = (Date.now() - start) / 1000; crashMultiplier = Math.pow(Math.E, 0.14 * elapsed); document.getElementById('crashMultiplier').innerText = "x" + crashMultiplier.toFixed(2); let r = document.getElementById('rocketContainer'); let y = 20 + (elapsed * 150); if(y > 180) y = 180; r.style.bottom = y + "px"; document.getElementById('crashCanvasArea').style.backgroundPosition = `center ${elapsed * 200}px`; if(crashMultiplier >= cp) flyAway(); }, 30); } else { if (!canCashOut) return; let w = Math.floor(bet * crashMultiplier); await syncDB(w, w, 0); finishRocket("УСПЕЛ!"); } }
     function flyAway() { canCashOut = false; clearInterval(crashInterval); let r = document.getElementById('rocketContainer'); r.style.transition = 'bottom 0.5s ease-in'; r.style.bottom = "1200px"; document.getElementById('crashMultiplier').innerText = "УЛЕТЕЛА!"; document.getElementById('crashMultiplier').style.color = "var(--danger)"; setTimeout(() => finishRocket("УЛЕТЕЛА!"), 500); }
-    function finishRocket(msg) { clearInterval(crashInterval); crashActive = false; const btn = document.getElementById('crashBtn'); btn.innerText = "ВЗЛЕТ"; btn.classList.remove('btn-danger'); btn.disabled = true; document.getElementById('crashMultiplier').innerText = msg; setTimeout(() => { document.getElementById('crashMultiplier').style.color = "#fff"; document.getElementById('crashMultiplier').innerText = "x1.00"; let r = document.getElementById('rocketContainer'); r.style.transition = 'none'; r.style.bottom = "20px"; btn.disabled = false; lockUI(false); }, 2000); }
+    function finishRocket(msg) { clearInterval(crashInterval); crashActive = false; canCashOut = false; const btn = document.getElementById('crashBtn'); btn.innerText = "ВЗЛЕТ"; btn.classList.remove('btn-danger'); btn.disabled = true; document.getElementById('crashMultiplier').innerText = msg; setTimeout(() => { document.getElementById('crashMultiplier').style.color = "#fff"; document.getElementById('crashMultiplier').innerText = "x1.00"; let r = document.getElementById('rocketContainer'); r.style.transition = 'none'; r.style.bottom = "20px"; btn.disabled = false; lockUI(false); }, 2000); }
 
     drawUpgrade();
 </script>
