@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ЁБЫЧ SLOTS | DATABASE ONLY</title>
+    <title>ЁБЫЧ SLOTS | STABLE VERSION</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
@@ -22,7 +22,7 @@
         }
         .logo-container { display: flex; align-items: center; gap: 15px; }
         .site-icon { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); background: #111; }
-        .logo { font-weight: 900; font-size: 18px; letter-spacing: 1px; text-transform: uppercase; }
+        .logo { font-weight: 900; font-size: 20px; letter-spacing: 2px; text-transform: uppercase; }
 
         .nav-tabs { display: flex; gap: 25px; transition: 0.3s; }
         .nav-tabs.disabled { opacity: 0.1; pointer-events: none; }
@@ -30,11 +30,17 @@
         .tab-link:hover { color: var(--accent); }
         .tab-link.active { color: var(--text); border-bottom: 2px solid var(--accent); }
 
-        /* ДИЗАЙН НИКА И БАЛАНСА */
-        .user-info { display: flex; align-items: center; gap: 20px; }
+        /* ДИЗАЙН НИКА (БЕЛЫЙ, ОБЫЧНЫЙ, ПОДЧЕРКНУТЫЙ) */
+        .user-info-area { display: flex; align-items: center; gap: 20px; }
         .user-name-label {
-            color: #fff; font-weight: 400; font-size: 14px; text-transform: uppercase;
-            border-bottom: 1px solid #fff; padding-bottom: 2px; cursor: pointer;
+            color: #fff;
+            font-weight: 400; /* Обычный шрифт */
+            font-size: 14px;
+            text-transform: uppercase;
+            border-bottom: 1px solid #fff; /* Подчеркнут белой линией */
+            padding-bottom: 2px;
+            cursor: pointer;
+            letter-spacing: 1px;
         }
         .balance-frame { border: 1px solid #25252b; padding: 8px 18px; border-radius: 10px; cursor: pointer; position: relative; transition: 0.2s; }
         .bal-val { font-weight: 400; color: #fff; font-size: 15px; }
@@ -55,18 +61,17 @@
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--overlay); display: none; z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(10px); }
         .modal-card { background: var(--panel); border: 1px solid #222; width: 90%; max-width: 400px; padding: 40px; border-radius: 35px; text-align: center; box-shadow: 0 0 60px rgba(0,0,0,0.5); display: flex; flex-direction: column; align-items: center; }
         .auth-input { width: 100%; background: #000; border: 1px solid #222; color: #fff; padding: 18px; border-radius: 15px; outline: none; font-family: 'Montserrat'; text-align: center; font-size: 16px; box-sizing: border-box; margin-bottom: 12px; }
-        .btn-auth { width: 100%; padding: 18px; background: var(--accent); color: #000; border: none; border-radius: 15px; font-weight: 900; cursor: pointer; text-transform: uppercase; }
+        .btn-auth { width: 100%; padding: 18px; background: var(--accent); color: #000; border: none; border-radius: 15px; font-weight: 900; cursor: pointer; text-transform: uppercase; transition: 0.3s; }
 
-        /* GAMES STYLES */
+        /* GAMES */
         .slots-card, .upgrade-card, .crash-card { background: var(--panel); border-radius: 30px; padding: 40px; border: 1px solid #1c1c24; text-align: center; width: 100%; box-sizing: border-box; }
         .reels-area { position: relative; display: flex; gap: 8px; justify-content: center; background: #000; padding: 15px; border-radius: 20px; margin-bottom: 30px; overflow: hidden; height: 450px; }
         .win-frame { position: absolute; top: 50%; left: 0; width: 100%; height: 150px; transform: translateY(-50%); border-top: 1px solid rgba(255,184,0,0.4); border-bottom: 1px solid rgba(255,184,0,0.4); background: rgba(255,184,0,0.05); z-index: 10; pointer-events: none; }
-        .reel { flex: 1; min-width: 80px; background: #07070a; border-radius: 8px; position: relative; overflow: hidden; }
-        .reel-strip { position: absolute; width: 100%; top: 0; will-change: transform; }
+        .reel { flex: 1; min-width: 80px; max-width: 160px; background: #07070a; border-radius: 8px; position: relative; overflow: hidden; }
+        .reel-strip { position: absolute; width: 100%; top: 0; }
         .symbol { height: 150px; display: flex; align-items: center; justify-content: center; }
         .symbol img { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 1px solid #222; }
 
-        .visual-box { position: relative; width: 400px; height: 400px; margin: 0 auto; }
         .upgrader-bg-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 260px; height: 260px; border-radius: 50%; opacity: 0.15; }
         #upgradeCanvas { transform: rotate(-90deg); position: relative; z-index: 1; }
         .orb-path { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; pointer-events: none; }
@@ -74,12 +79,11 @@
 
         .canvas-area { background: #000; border-radius: 20px; height: 650px; position: relative; overflow: hidden; border: 1px solid #1c1c24; background-image: radial-gradient(#222 1px, transparent 1px); background-size: 120px 120px; }
         #crashMultiplier { position: absolute; top: 60px; left: 50%; transform: translateX(-50%); font-size: 110px; font-weight: 900; z-index: 20; color: #fff; }
-        .rocket-container { position: absolute; width: 280px; height: 280px; left: calc(50% - 140px); bottom: 20px; z-index: 5; transition: bottom 0.1s linear; }
+        .rocket-container { position: absolute; width: 280px; height: 280px; left: calc(50% - 140px); bottom: 20px; transition: bottom 0.1s linear; }
         .rocket-img { width: 100%; height: 100%; background: url('rocket.png') no-repeat center center; background-size: contain; }
 
         .btn-main { padding: 22px; background: linear-gradient(135deg, var(--accent) 0%, #ff8a00 100%); border: none; border-radius: 18px; color: #000; font-weight: 900; font-size: 16px; cursor: pointer; text-transform: uppercase; width: 100%; transition: 0.2s; }
-        .btn-main:hover:not(:disabled) { transform: translateY(-2px); filter: brightness(1.1); }
-
+        
         #winOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 5000; display: none; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; }
         .jackpot-text { font-size: 80px; font-weight: 900; color: var(--accent); text-shadow: 0 0 30px orange; animation: pulse 0.4s infinite alternate; }
         .win-amt-text { font-size: 50px; font-weight: 700; color: #fff; margin-top: 10px; }
@@ -89,7 +93,8 @@
             header { padding: 0 15px; } .logo { font-size: 14px; } .nav-tabs { gap: 10px; } .tab-link { font-size: 9px; }
             .user-info { gap: 10px; } .user-name-label { font-size: 11px; }
             .upgrade-card, .crash-card { grid-template-columns: 1fr; padding: 20px; } .visual-box { width: 280px; height: 280px; }
-            .canvas-area { height: 400px; } .rocket-container { width: 150px; height: 150px; left: calc(50% - 75px); } #crashMultiplier { font-size: 50px; }
+            .canvas-area { height: 400px; } .rocket-container { width: 150px; height: 150px; left: calc(50% - 75px); } #crashMultiplier { font-size: 40px; }
+            .reels-area { height: 240px; } .symbol { height: 80px; } .symbol img { width: 60px; height: 60px; }
         }
     </style>
 </head>
@@ -121,7 +126,7 @@
     </div>
 </div>
 
-<div class="modal-overlay" id="profileModal" onclick="closeProfileOutside(event)">
+<div class="modal-overlay" id="profileModal" onclick="this.style.display='none'">
     <div class="modal-card" onclick="event.stopPropagation()">
         <h2 style="margin:0">ПРОФИЛЬ</h2>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin:25px 0; width:100%;">
@@ -138,7 +143,7 @@
     </div>
 </div>
 
-<div id="winOverlay"><div class="jackpot-text" id="jackTitle">JACKPOT</div><div class="win-amt-text" id="jackAmt">x256</div></div>
+<div id="winOverlay"><div class="jackpot-text" id="jackTitle">JACKPOT</div><div id="jackAmt" style="color:#fff; font-size:40px; font-weight:900;">x256</div></div>
 
 <div class="container">
     <div id="slots" class="page active">
@@ -147,7 +152,7 @@
                 <div class="win-frame"></div>
                 <div class="reel"><div class="reel-strip"></div></div><div class="reel"><div class="reel-strip"></div></div><div class="reel"><div class="reel-strip"></div></div><div class="reel"><div class="reel-strip"></div></div><div class="reel"><div class="reel-strip"></div></div><div class="reel"><div class="reel-strip"></div></div><div class="reel"><div class="reel-strip"></div></div>
             </div>
-            <div style="max-width:400px; margin: 0 auto; width:100%;">
+            <div style="max-width:400px; margin: 0 auto; width: 100%;">
                 <input type="number" id="slotBet" value="100" class="auth-input">
                 <button class="btn-main" id="spinBtn" onclick="startSlots()">Крутить</button>
             </div>
@@ -174,10 +179,10 @@
     <div id="rocket" class="page">
         <div class="crash-card">
             <div class="canvas-area" id="crashCanvasArea">
-                <div id="crashMultiplier">x1.00</div>
+                <div id="crashMultiplier" style="color:#fff;">x1.00</div>
                 <div id="rocketContainer" class="rocket-container"><div class="rocket-img"></div></div>
             </div>
-            <div style="display:flex; flex-direction:column; gap:10px; width:100%;">
+            <div style="display:flex; flex-direction:column; gap:10px; margin-top:20px;">
                 <input type="number" id="crashBet" value="100" class="auth-input">
                 <button class="btn-main" id="crashBtn" onclick="toggleCrash()">Взлет</button>
             </div>
@@ -195,44 +200,40 @@
     let canCashOut = false;
     const textures = ['slot1.png', 'slot2.png', 'slot3.png', 'slot4.png'];
 
-    /* --- СИСТЕМА ИМЕНИ И ПАРОЛЯ --- */
     async function handleLogin() {
         const name = document.getElementById('authName').value.trim().toLowerCase();
         const pass = document.getElementById('authPass').value;
-        if(name.length < 2 || pass.length < 3) return alert("Минимум 3 знака везде");
+        if(name.length < 2 || pass.length < 3) return alert("Заполни данные");
 
-        // Ищем в базе напрямую в таблице
+        // ПРЯМОЙ ЗАПРОС В ТАБЛИЦУ players
         let { data, error } = await sb.from('players').select('*').eq('username', name).single();
 
         if(!data) {
-            // Регистрация
             const { data: newUser, error: err2 } = await sb.from('players').insert([{ username: name, password: pass, balance: 10000 }]).select().single();
-            if(err2) return alert(err2.message);
+            if(err2) return alert("Ошибка создания: " + err2.message);
             user = newUser;
         } else {
-            // Проверка пароля
             if(data.password !== pass) return alert("Неверный пароль!");
             user = data;
         }
 
-        localStorage.setItem('ebych_user_session', name);
+        localStorage.setItem('ebych_stable_session', name);
         document.getElementById('authModal').style.display = 'none';
         document.getElementById('userNameDisp').innerText = user.username;
         updateUI();
     }
 
-    async function checkAuth() {
-        const name = localStorage.getItem('ebych_user_session');
-        if(name) {
-            let { data } = await sb.from('players').select('*').eq('username', name).single();
+    async function checkAutoLogin() {
+        const saved = localStorage.getItem('ebych_stable_session');
+        if(saved) {
+            let { data } = await sb.from('players').select('*').eq('username', saved).single();
             if(data) { user = data; document.getElementById('authModal').style.display = 'none'; document.getElementById('userNameDisp').innerText = user.username; updateUI(); }
         }
     }
-    checkAuth();
+    checkAutoLogin();
 
-    function logout() { localStorage.removeItem('ebych_user_session'); location.reload(); }
+    function logout() { localStorage.removeItem('ebych_stable_session'); location.reload(); }
 
-    /* --- СИНХРОНИЗАЦИЯ --- */
     async function sync(diff, won=0, lost=0) {
         if(!user) return;
         user.balance += diff; user.total_won += won; user.total_lost += lost;
@@ -252,9 +253,7 @@
     }
 
     function openProfile() { if (isGameRunning) return; document.getElementById('statWon').innerText = user.total_won.toLocaleString() + " Р"; document.getElementById('statLost').innerText = user.total_lost.toLocaleString() + " Р"; document.getElementById('profileModal').style.display = 'flex'; }
-    function closeProfileOutside(e) { if(e.target.classList.contains('modal-overlay')) document.getElementById('profileModal').style.display = 'none'; }
 
-    function lockUI(s) { isGameRunning = s; document.getElementById('navTabs').classList.toggle('disabled', s); }
     function switchTab(id, el) { if(isGameRunning) return; document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); document.querySelectorAll('.tab-link').forEach(l => l.classList.remove('active')); document.getElementById(id).classList.add('active'); el.classList.add('active'); if(id==='upgrader') setTimeout(drawUpgrade, 50); }
 
     /* SLOTS */
@@ -268,8 +267,8 @@
         document.getElementById('spinBtn').disabled = true;
         const res = [];
         document.querySelectorAll('.reel-strip').forEach((s, i) => {
-            const win = Math.floor(Math.random()*4); res.push(win);
-            s.children[101].querySelector('img').src = textures[win];
+            const w = Math.floor(Math.random()*4); res.push(w);
+            s.children[101].querySelector('img').src = textures[w];
             const sH = window.innerWidth < 900 ? 80 : 150;
             s.style.transition = 'none'; s.style.transform = 'translateY(0)';
             void s.offsetWidth; s.style.transition = `transform ${5 + (i * 1.5)}s cubic-bezier(0.1, 0, 0, 1)`;
@@ -294,6 +293,8 @@
     async function toggleCrash() { const bet = parseInt(document.getElementById('crashBet').value); if(!crashActive) { if(!bet || bet > user.balance || bet <= 0) return; lockUI(true); await sync(-bet, 0, bet); crashActive = true; canCashOut = true; crashMultiplier = 1.0; let cp = (98 / (100 - Math.random() * 100)); document.getElementById('crashBtn').innerText = "ЗАБРАТЬ"; document.getElementById('crashBtn').classList.add('btn-danger'); let start = Date.now(); crashInterval = setInterval(() => { let elapsed = (Date.now() - start) / 1000; crashMultiplier = Math.pow(Math.E, 0.14 * elapsed); document.getElementById('crashMultiplier').innerText = "x" + crashMultiplier.toFixed(2); let r = document.getElementById('rocketContainer'); let y = 20 + (elapsed * 150); if(y > 180) y = 180; r.style.bottom = y + "px"; document.getElementById('crashCanvasArea').style.backgroundPosition = `center ${elapsed * 200}px`; if(crashMultiplier >= cp) { canCashOut = false; clearInterval(crashInterval); flyAway(); } }, 30); } else { if (!canCashOut) return; let w = Math.floor(bet * crashMultiplier); await sync(w, w, 0); finishRocket("УСПЕЛ!"); } }
     function flyAway() { let r = document.getElementById('rocketContainer'); r.style.transition = 'bottom 0.5s ease-in'; r.style.bottom = "1200px"; document.getElementById('crashMultiplier').innerText = "УЛЕТЕЛА!"; document.getElementById('crashMultiplier').style.color = "var(--danger)"; setTimeout(() => finishRocket("УЛЕТЕЛА!"), 500); }
     function finishRocket(msg) { clearInterval(crashInterval); crashActive = false; canCashOut = false; const btn = document.getElementById('crashBtn'); btn.innerText = "ВЗЛЕТ"; btn.classList.remove('btn-danger'); btn.disabled = true; document.getElementById('crashMultiplier').innerText = msg; setTimeout(() => { document.getElementById('crashMultiplier').style.color = "#fff"; document.getElementById('crashMultiplier').innerText = "x1.00"; let r = document.getElementById('rocketContainer'); r.style.transition = 'none'; r.style.bottom = "20px"; btn.disabled = false; lockUI(false); }, 2000); }
+
+    function lockUI(s) { isGameRunning = s; document.getElementById('navTabs').classList.toggle('disabled', s); }
 
     drawUpgrade();
 </script>
