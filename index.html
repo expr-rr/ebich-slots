@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ЁБЫЧ SLOTS | ULTIMATE</title>
+    <title>ЁБЫЧ SLOTS | ULTIMATE V2</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
@@ -30,14 +30,12 @@
         .logo { font-weight: 900; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; }
         .logo span { color: var(--accent); }
 
-        .user-section { display: flex; align-items: center; gap: 10px; }
         .balance-frame { 
             background: #16161c; padding: 8px 12px; border-radius: 10px; border: 1px solid #222; 
-            cursor: pointer; position: relative; overflow: visible;
+            cursor: pointer; position: relative;
         }
-        .bal-val { font-weight: 400; color: #ffffff; font-size: 14px; white-space: nowrap; }
+        .bal-val { font-weight: 400; color: #ffffff; font-size: 14px; }
 
-        /* Всплывающий текст баланса */
         .bal-float {
             position: absolute; right: 0; top: -20px; font-weight: 900; font-size: 14px;
             pointer-events: none; animation: floatUp 1.5s forwards;
@@ -55,7 +53,7 @@
             align-items: center; border-top: 1px solid #1c1c24; z-index: 9999;
         }
         .nav-tabs.disabled { opacity: 0.2; pointer-events: none; filter: grayscale(1); }
-        .tab-link { color: #555; cursor: pointer; font-weight: 700; text-transform: uppercase; font-size: 10px; transition: 0.3s; }
+        .tab-link { color: #555; cursor: pointer; font-weight: 700; text-transform: uppercase; font-size: 10px; }
         .tab-link.active { color: var(--accent); border-bottom: 2px solid var(--accent); padding-bottom: 5px; }
 
         /* --- CONTAINER --- */
@@ -68,51 +66,46 @@
         .reels-area { 
             position: relative; display: flex; gap: 2px; justify-content: center; 
             background: #000; padding: 5px; border-radius: 15px; margin-bottom: 20px; 
-            overflow: hidden; height: 240px; border: 1px solid #1c1c24;
+            overflow: hidden; height: 220px; border: 1px solid #1c1c24;
         }
         .win-frame { 
-            position: absolute; top: 50%; left: 0; width: 100%; height: 70px; 
+            position: absolute; top: 50%; left: 0; width: 100%; height: 65px; 
             transform: translateY(-50%); border-top: 1px solid var(--accent); 
             border-bottom: 1px solid var(--accent); background: rgba(255,184,0,0.05); z-index: 10; 
         }
-        .reel { flex: 1; background: #07070a; position: relative; overflow: hidden; border-radius: 4px; }
-        .symbol { height: 70px; display: flex; align-items: center; justify-content: center; }
-        .symbol img { width: 90%; max-width: 45px; border-radius: 50%; object-fit: cover; }
+        .reel { flex: 1; background: #07070a; position: relative; overflow: hidden; }
+        .symbol { height: 65px; display: flex; align-items: center; justify-content: center; }
+        .symbol img { width: 90%; max-width: 40px; border-radius: 50%; object-fit: cover; }
 
         /* --- UPGRADER --- */
-        .visual-box { position: relative; width: 260px; height: 260px; margin: 0 auto 20px; background: radial-gradient(circle, #15151a 0%, #050507 80%); border-radius: 50%; }
+        .visual-box { position: relative; width: 300px; height: 300px; margin: 0 auto 20px; background: radial-gradient(circle, #1a1a24 0%, #050507 85%); border-radius: 50%; border: 1px solid #1c1c24; }
         #upgradeCanvas { width: 100%; height: 100%; z-index: 2; position: relative; }
-        .upgrader-bg-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100px; opacity: 0.1; z-index: 1; }
+        .upgrader-bg-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 160px; opacity: 0.15; z-index: 1; }
         .orb-path { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; }
-        .orb-triangle { position: absolute; top: -8px; left: calc(50% - 12px); width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-top: 20px solid #fff; filter: drop-shadow(0 0 8px var(--accent)); }
-        #upChanceCenter { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 32px; font-weight: 900; z-index: 3; }
+        .orb-triangle { position: absolute; top: -10px; left: calc(50% - 15px); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 25px solid #fff; filter: drop-shadow(0 0 10px var(--accent)); }
+        #upChanceCenter { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 38px; font-weight: 900; z-index: 3; text-shadow: 0 0 15px rgba(0,0,0,0.8); }
 
-        /* --- ROCKET (CRASH) --- */
-        .canvas-area { background: #000; border-radius: 20px; height: 400px; position: relative; overflow: hidden; border: 1px solid #1c1c24; margin-bottom: 15px; background-image: radial-gradient(#111 1px, transparent 1px); background-size: 50px 50px; }
-        #crashMultiplier { position: absolute; top: 60px; width: 100%; text-align: center; font-size: 60px; font-weight: 900; z-index: 20; text-shadow: 0 0 20px rgba(0,0,0,0.5); }
-        .rocket-container { position: absolute; width: 140px; height: 140px; left: calc(50% - 70px); bottom: 20px; z-index: 15; transition: bottom 0.1s linear, transform 0.5s ease-in; }
-        .rocket-img { width: 100%; height: 100%; background: url('rocket.png') no-repeat center; background-size: contain; }
+        /* --- ROCKET --- */
+        .canvas-area { background: #000; border-radius: 20px; height: 420px; position: relative; overflow: hidden; border: 1px solid #1c1c24; margin-bottom: 15px; background-image: radial-gradient(#111 1px, transparent 1px); background-size: 40px 40px; }
+        #crashMultiplier { position: absolute; top: 70px; width: 100%; text-align: center; font-size: 60px; font-weight: 900; z-index: 20; }
+        .rocket-container { position: absolute; width: 150px; height: 150px; left: calc(50% - 75px); bottom: 20px; z-index: 15; }
+        .rocket-img { width: 100%; height: 100%; background: url('rocket.png') no-repeat center; background-size: contain; transition: transform 0.2s ease; }
+        
+        /* Анимация улета */
+        .rocket-fly-away { 
+            transition: transform 2s cubic-bezier(0.4, 0, 1, 1), bottom 2s cubic-bezier(0.4, 0, 1, 1) !important;
+            transform: translateY(-1200px) translateX(300px) rotate(45deg) scale(0.5) !important;
+        }
 
-        /* --- UI ELEMENTS --- */
+        /* --- UI --- */
         .controls-box { width: 100%; max-width: 400px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
-        .auth-input { width: 100%; background: #16161c; border: 1px solid #222; color: #fff; padding: 15px; border-radius: 12px; text-align: center; font-size: 16px; font-family: 'Montserrat'; }
-        .btn-main { width: 100%; padding: 18px; background: linear-gradient(135deg, var(--accent) 0%, #ff8a00 100%); border: none; border-radius: 12px; color: #000; font-weight: 900; font-size: 15px; cursor: pointer; text-transform: uppercase; transition: 0.2s; }
-        .btn-main:disabled { opacity: 0.3; cursor: not-allowed; filter: grayscale(1); }
+        .auth-input { width: 100%; background: #16161c; border: 1px solid #222; color: #fff; padding: 16px; border-radius: 14px; text-align: center; font-size: 16px; font-family: 'Montserrat'; }
+        .btn-main { width: 100%; padding: 20px; background: linear-gradient(135deg, var(--accent) 0%, #ff8a00 100%); border: none; border-radius: 14px; color: #000; font-weight: 900; font-size: 15px; cursor: pointer; text-transform: uppercase; }
+        .btn-main:disabled { opacity: 0.3; filter: grayscale(1); }
         .btn-danger { background: linear-gradient(135deg, #ff4b4b 0%, #a30000 100%) !important; color: #fff !important; }
 
-        /* MODALS */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); display: none; z-index: 10000; justify-content: center; align-items: center; }
         .modal-card { background: #0f0f13; border: 1px solid #222; width: 90%; max-width: 350px; padding: 30px; border-radius: 25px; text-align: center; }
-
-        #winOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 11000; display: none; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; }
-        .jackpot-text { font-size: 50px; font-weight: 900; color: var(--accent); text-shadow: 0 0 30px orange; }
-
-        @media (min-width: 900px) {
-            .reels-area { height: 400px; }
-            .symbol { height: 150px; }
-            .win-frame { height: 150px; }
-            .logo { font-size: 18px; }
-        }
     </style>
 </head>
 <body>
@@ -138,14 +131,12 @@
 
 <div class="modal-overlay" id="authModal" style="display: flex;">
     <div class="modal-card">
-        <h2 style="margin-top:0">ВХОД</h2>
-        <input type="text" id="authName" class="auth-input" placeholder="ИМЯ" style="margin-bottom:10px">
+        <h2>ВХОД</h2>
+        <input type="text" id="authName" class="auth-input" placeholder="НИКНЕЙМ" style="margin-bottom:10px">
         <input type="password" id="authPass" class="auth-input" placeholder="ПАРОЛЬ" style="margin-bottom:20px">
         <button class="btn-main" onclick="handleLogin()">ИГРАТЬ</button>
     </div>
 </div>
-
-<div id="winOverlay"><div class="jackpot-text" id="jackTitle">JACKPOT</div><div id="jackAmt" style="color:#fff; font-size:30px; font-weight:900;">x512</div></div>
 
 <div class="container">
     <div id="slots" class="page active">
@@ -174,8 +165,8 @@
         </div>
         <div class="controls-box">
             <input type="number" id="upAmount" value="500" class="auth-input" oninput="drawUpgrade()">
-            <input type="range" id="upRange" min="1" max="80" value="50" oninput="drawUpgrade()" style="width:100%; margin: 10px 0;">
-            <div id="upPayout" style="color:var(--success); font-size:20px; font-weight:900; text-align:center; margin-bottom:10px;">950 руб.</div>
+            <input type="range" id="upRange" min="1" max="85" value="50" oninput="drawUpgrade()" style="width:100%; margin: 15px 0;">
+            <div id="upPayout" style="color:var(--success); font-size:22px; font-weight:900; text-align:center; margin-bottom:10px;">950 руб.</div>
             <button class="btn-main" id="upBtn" onclick="startUpgrade()">Улучшить</button>
         </div>
     </div>
@@ -183,7 +174,7 @@
     <div id="rocket" class="page">
         <div class="canvas-area">
             <div id="crashMultiplier">x1.00</div>
-            <div id="rocketContainer" class="rocket-container"><div class="rocket-img"></div></div>
+            <div id="rocketContainer" class="rocket-container"><div class="rocket-img" id="rocketImg"></div></div>
         </div>
         <div class="controls-box">
             <input type="number" id="crashBet" value="100" class="auth-input">
@@ -197,31 +188,29 @@
     const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd3dGJuam9hY2dpcndzYnduYWFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQwNjM0NTgsImV4cCI6MjA5OTYzOTQ1OH0.ga9HERWc7gXq9VWn8U5lpBon-YhwBjPWp5ENwUYyutU';
     const sb = supabase.createClient(SB_URL, SB_KEY);
 
-    let user = null;
-    let isGameRunning = false;
+    let user = null, isGameRunning = false;
     const textures = ['slot1.png', 'slot2.png', 'slot3.png', 'slot4.png'];
 
     async function handleLogin() {
-        const name = document.getElementById('authName').value.trim().toLowerCase();
-        const pass = document.getElementById('authPass').value;
-        if(!name || !pass) return;
-        let { data } = await sb.from('players').select('*').eq('username', name).single();
+        const n = document.getElementById('authName').value.trim().toLowerCase(), p = document.getElementById('authPass').value;
+        if(!n || !p) return;
+        let { data } = await sb.from('players').select('*').eq('username', n).single();
         if(!data) {
-            const { data: newUser } = await sb.from('players').insert([{ username: name, password: pass, balance: 10000 }]).select().single();
-            user = newUser;
+            const { data: nU } = await sb.from('players').insert([{ username: n, password: p, balance: 10000 }]).select().single();
+            user = nU;
         } else {
-            if(data.password !== pass) return;
+            if(data.password !== p) return;
             user = data;
         }
-        localStorage.setItem('ebych_session_name', name);
+        localStorage.setItem('ebych_session_name', n);
         document.getElementById('authModal').style.display = 'none';
         updateUI();
     }
 
     async function checkAuth() {
-        const name = localStorage.getItem('ebych_session_name');
-        if(name) {
-            let { data } = await sb.from('players').select('*').eq('username', name).single();
+        const n = localStorage.getItem('ebych_session_name');
+        if(n) {
+            let { data } = await sb.from('players').select('*').eq('username', n).single();
             if(data) { user = data; document.getElementById('authModal').style.display = 'none'; updateUI(); }
         }
     }
@@ -231,32 +220,26 @@
         if(!user) return;
         document.getElementById('balanceDisplay').innerText = Math.floor(user.balance).toLocaleString() + " руб.";
         if(diff !== 0) {
-            const float = document.createElement('div');
-            float.className = 'bal-float';
-            float.style.color = diff > 0 ? 'var(--success)' : 'var(--danger)';
-            float.innerText = (diff > 0 ? '+' : '') + Math.floor(diff) + ' руб.';
-            document.getElementById('floatContainer').appendChild(float);
-            setTimeout(() => float.remove(), 1500);
+            const f = document.createElement('div'); f.className = 'bal-float';
+            f.style.color = diff > 0 ? 'var(--success)' : 'var(--danger)';
+            f.innerText = (diff > 0 ? '+' : '') + Math.floor(diff) + ' руб.';
+            document.getElementById('floatContainer').appendChild(f);
+            setTimeout(() => f.remove(), 1500);
         }
     }
 
     async function sync(diff) {
-        user.balance += diff;
-        updateUI(diff);
+        user.balance += diff; updateUI(diff);
         await sb.from('players').update({ balance: user.balance }).eq('username', user.username);
     }
 
-    function deposit10k() {
-        if(isGameRunning) return;
-        if(user.balance < 10000) sync(10000 - user.balance);
-    }
+    function deposit10k() { if(!isGameRunning && user.balance < 10000) sync(10000 - user.balance); }
 
     function lockUI(s) {
         isGameRunning = s;
         document.getElementById('navTabs').classList.toggle('disabled', s);
         document.getElementById('spinBtn').disabled = s;
         document.getElementById('upBtn').disabled = s;
-        // Crash кнопка управляется отдельно
     }
 
     // --- SLOTS ---
@@ -284,24 +267,17 @@
             s.children[101].querySelector('img').src = textures[w];
             s.style.transition = 'none'; s.style.transform = 'translateY(0)';
             void s.offsetWidth;
-            s.style.transition = `transform ${3 + (i * 0.4)}s cubic-bezier(0.1, 0, 0, 1)`;
+            // ИНТРИГА: Увеличен интервал между остановками (0.8s)
+            s.style.transition = `transform ${2 + (i * 0.8)}s cubic-bezier(0.1, 0, 0, 1)`;
             s.style.transform = `translateY(-${100 * sH}px)`;
         });
         setTimeout(async () => {
             const c = {}; res.forEach(v => c[v] = (c[v]||0)+1);
             const max = Math.max(...Object.values(c));
-            let m = 0;
-            if(max === 4) m = 2; else if(max === 5) m = 8; else if(max === 6) m = 128; else if(max === 7) m = 512;
-            if(m > 0) {
-                let win = bet * m; await sync(win);
-                if(m >= 128) {
-                    document.getElementById('jackAmt').innerText = "x"+m;
-                    document.getElementById('winOverlay').style.display='flex';
-                    setTimeout(()=>document.getElementById('winOverlay').style.display='none', 3000);
-                }
-            }
+            let m = 0; if(max === 4) m = 2; else if(max === 5) m = 8; else if(max === 6) m = 128; else if(max === 7) m = 512;
+            if(m > 0) await sync(bet * m);
             lockUI(false);
-        }, 6000);
+        }, 8000);
     }
 
     // --- UPGRADER ---
@@ -311,88 +287,79 @@
         document.getElementById('upChanceCenter').innerText = c+'%';
         document.getElementById('upPayout').innerText = Math.floor(a*(100/c*0.95)) + " руб.";
         ctx.clearRect(0,0,400,400);
-        ctx.beginPath(); ctx.arc(200,200,180,0,Math.PI*2); ctx.strokeStyle='#1a1a20'; ctx.lineWidth=15; ctx.stroke();
-        ctx.beginPath(); ctx.arc(200,200,180,-Math.PI/2, (-Math.PI/2) + (Math.PI*2)*(c/100)); ctx.strokeStyle='var(--accent)'; ctx.lineWidth=15; ctx.stroke();
+        // Задний фон
+        ctx.beginPath(); ctx.arc(200,200,180,0,Math.PI*2); ctx.strokeStyle='#1a1a20'; ctx.lineWidth=20; ctx.stroke();
+        // Сектор вероятности
+        ctx.beginPath(); 
+        ctx.arc(200,200,180,-Math.PI/2, (-Math.PI/2) + (Math.PI*2)*(c/100)); 
+        ctx.strokeStyle='var(--accent)'; ctx.lineWidth=20; ctx.stroke();
     }
+
     async function startUpgrade() {
         const a = parseInt(document.getElementById('upAmount').value), c = parseInt(document.getElementById('upRange').value);
         if(!a || a > user.balance || a <= 0) return;
         lockUI(true); await sync(-a);
         const target = (360 * 5) + (Math.random() * 360);
         const orb = document.getElementById('orbPath');
-        orb.style.transition = 'transform 3s cubic-bezier(0.15, 0, 0.15, 1)';
+        orb.style.transition = 'transform 3.5s cubic-bezier(0.15, 0, 0.1, 1)';
         orb.style.transform = `rotate(${target}deg)`;
         setTimeout(async () => {
-            if((target % 360) <= (c/100*360)) { await sync(Math.floor(a*(100/c*0.95))); }
+            if((target % 360) <= (c/100*360)) await sync(Math.floor(a*(100/c*0.95)));
             orb.style.transition = 'none'; orb.style.transform = 'rotate(0deg)';
             lockUI(false);
-        }, 3500);
+        }, 4000);
     }
 
-    // --- ROCKET (CRASH) ---
-    let crActive = false, crInt, crM = 1.0, crCanCash = false;
+    // --- ROCKET ---
+    let crA = false, crInt, crM = 1.0, crCan = false;
     async function toggleCrash() {
-        const bet = parseInt(document.getElementById('crashBet').value);
-        const btn = document.getElementById('crashBtn');
-        const rocket = document.getElementById('rocketContainer');
-
-        if(!crActive) {
-            if(!bet || bet > user.balance || bet <= 0) return;
-            lockUI(true); 
-            await sync(-bet);
-            crActive = true; crCanCash = true; crM = 1.0;
+        const b = parseInt(document.getElementById('crashBet').value), btn = document.getElementById('crashBtn'), r = document.getElementById('rocketContainer');
+        if(!crA) {
+            if(!b || b > user.balance || b <= 0) return;
+            lockUI(true); await sync(-b);
+            crA = true; crCan = true; crM = 1.0;
             let boom = (100 / (100 - Math.random() * 97));
             btn.innerText = "ЗАБРАТЬ"; btn.classList.add('btn-danger'); btn.disabled = false;
-            
             crInt = setInterval(() => {
                 crM += 0.008 * Math.sqrt(crM);
                 document.getElementById('crashMultiplier').innerText = "x" + crM.toFixed(2);
-                rocket.style.bottom = Math.min(280, 20 + (crM * 20)) + "px";
-                
+                r.style.bottom = Math.min(300, 20 + (crM * 25)) + "px";
                 if(crM >= boom) {
-                    clearInterval(crInt); crCanCash = false;
+                    clearInterval(crInt); crCan = false;
                     document.getElementById('crashMultiplier').innerText = "УЛЕТЕЛА!";
                     document.getElementById('crashMultiplier').style.color = "var(--danger)";
-                    rocket.style.transform = "translateY(-1000px) scale(1.5)";
+                    r.classList.add('rocket-fly-away'); // ЭФФЕКТ УЛЕТА
                     btn.disabled = true;
-                    setTimeout(resetRocket, 2000);
+                    setTimeout(resetRocket, 2500);
                 }
             }, 50);
         } else {
-            if(!crCanCash) return;
-            crCanCash = false;
-            clearInterval(crInt);
-            let win = Math.floor(bet * crM);
-            await sync(win);
-            document.getElementById('crashMultiplier').innerText = "ЗАБРАЛ x" + crM.toFixed(2);
+            if(!crCan) return;
+            crCan = false; clearInterval(crInt);
+            await sync(Math.floor(b * crM));
+            document.getElementById('crashMultiplier').innerText = "В КАРМАНЕ!";
             document.getElementById('crashMultiplier').style.color = "var(--success)";
             btn.disabled = true;
-            btn.innerText = "УСПЕХ!";
-            setTimeout(resetRocket, 2000);
+            setTimeout(resetRocket, 1500);
         }
     }
 
     function resetRocket() {
-        const btn = document.getElementById('crashBtn');
-        const rocket = document.getElementById('rocketContainer');
-        rocket.style.transition = 'none';
-        rocket.style.transform = 'none';
-        rocket.style.bottom = '20px';
+        const btn = document.getElementById('crashBtn'), r = document.getElementById('rocketContainer');
+        r.classList.remove('rocket-fly-away');
+        r.style.transition = 'none'; r.style.bottom = '20px';
         document.getElementById('crashMultiplier').innerText = "x1.00";
         document.getElementById('crashMultiplier').style.color = "#fff";
-        btn.innerText = "ВЗЛЕТ";
-        btn.classList.remove('btn-danger');
-        btn.disabled = false;
-        crActive = false;
-        lockUI(false);
+        btn.innerText = "ВЗЛЕТ"; btn.classList.remove('btn-danger'); btn.disabled = false;
+        crA = false; lockUI(false);
     }
 
     function switchTab(id, el) { 
-        if(isGameRunning) return; 
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); 
-        document.querySelectorAll('.tab-link').forEach(l => l.classList.remove('active')); 
-        document.getElementById(id).classList.add('active'); el.classList.add('active'); 
-        if(id==='upgrader') drawUpgrade(); 
+        if(isGameRunning) return;
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.tab-link').forEach(l => l.classList.remove('active'));
+        document.getElementById(id).classList.add('active'); el.classList.add('active');
+        if(id==='upgrader') drawUpgrade();
     }
 
     drawUpgrade();
