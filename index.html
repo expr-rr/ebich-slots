@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ЁБЫЧ SLOTS</title>
+    <title>ЁБЫЧ SLOTS | PRO</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
@@ -18,106 +18,86 @@
             margin: 0; padding: 0; overflow-x: hidden; -webkit-tap-highlight-color: transparent; 
         }
 
-        /* --- FIXED HEADER --- */
+        /* --- HEADER (ФИКСИРОВАННЫЙ) --- */
         header {
-            position: fixed; top: 0; left: 0; width: 100%; height: 80px;
-            background: #0f0f13; /* Сплошной фон */
-            border-bottom: 1px solid #1c1c21; 
-            display: flex; align-items: center;
-            justify-content: space-between; padding: 0 20px; 
-            z-index: 9999; /* Поверх всего */
+            position: fixed; top: 0; left: 0; width: 100%; height: 75px;
+            background: #0f0f13; border-bottom: 1px solid #1c1c21; 
+            display: flex; align-items: center; justify-content: space-between; 
+            padding: 0 15px; z-index: 9999;
         }
-        .logo-container { display: flex; align-items: center; gap: 12px; }
-        .site-icon { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--accent); }
-        .logo { font-weight: 900; font-size: 16px; letter-spacing: 1px; text-transform: uppercase; color: #fff; }
+        .logo-container { display: flex; align-items: center; gap: 8px; }
+        .site-icon { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--accent); }
+        .logo { font-weight: 900; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; }
         .logo span { color: var(--accent); }
 
-        .user-section { display: flex; align-items: center; gap: 15px; }
-        .user-nickname { 
-            color: #aaa; font-size: 11px; text-transform: uppercase; 
-            border-bottom: 1px solid #333; cursor: pointer;
-        }
-        .balance-frame { 
-            background: #16161c; padding: 10px 15px; border-radius: 10px; 
-            border: 1px solid #222; cursor: pointer; text-align: center;
-        }
-        .bal-val { 
-            font-weight: 400; /* Не жирный */
-            color: #ffffff; /* Белый цвет */
-            font-size: 15px; 
-        }
+        .user-section { display: flex; align-items: center; gap: 10px; }
+        .user-nickname { color: #888; font-size: 10px; text-transform: uppercase; border-bottom: 1px solid #333; cursor: pointer; }
+        .balance-frame { background: #16161c; padding: 8px 12px; border-radius: 10px; border: 1px solid #222; cursor: pointer; }
+        .bal-val { font-weight: 400; color: #ffffff; font-size: 14px; white-space: nowrap; }
 
-        /* --- NAVIGATION --- */
+        /* --- NAV (BOTTOM) --- */
         .nav-tabs { 
-            position: fixed; bottom: 0; left: 0; width: 100%; height: 70px;
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 65px;
             background: #0f0f13; display: flex; justify-content: space-around; 
             align-items: center; border-top: 1px solid #1c1c24; z-index: 9999;
         }
         .tab-link { color: #555; cursor: pointer; font-weight: 700; text-transform: uppercase; font-size: 10px; transition: 0.3s; }
-        .tab-link.active { color: var(--accent); }
+        .tab-link.active { color: var(--accent); border-bottom: 2px solid var(--accent); padding-bottom: 5px; }
 
         /* --- CONTAINER --- */
-        .container { 
-            margin-top: 100px; /* Большой отступ сверху, чтобы не накладывалось на баланс */
-            padding: 15px; padding-bottom: 100px; 
-            display: flex; justify-content: center; 
-        }
-        .page { display: none; width: 100%; max-width: 600px; animation: fadeIn 0.3s ease; }
+        .container { margin-top: 90px; padding: 10px; padding-bottom: 90px; display: flex; justify-content: center; }
+        .page { display: none; width: 100%; max-width: 800px; animation: fadeIn 0.3s ease; }
         .page.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* --- GAMES UI --- */
+        /* --- 7 REELS SLOTS --- */
         .reels-area { 
-            position: relative; display: flex; gap: 5px; justify-content: center; 
-            background: #000; padding: 10px; border-radius: 20px; margin-bottom: 20px; 
-            overflow: hidden; height: 300px; border: 1px solid #1c1c24;
+            position: relative; display: flex; gap: 3px; justify-content: center; 
+            background: #000; padding: 8px; border-radius: 15px; margin-bottom: 20px; 
+            overflow: hidden; height: 260px; border: 1px solid #1c1c24;
         }
         .win-frame { 
-            position: absolute; top: 50%; left: 0; width: 100%; height: 90px; 
-            transform: translateY(-50%); border-top: 2px solid var(--accent); 
-            border-bottom: 2px solid var(--accent); background: rgba(255,184,0,0.05); z-index: 10; 
+            position: absolute; top: 50%; left: 0; width: 100%; height: 80px; 
+            transform: translateY(-50%); border-top: 1px solid var(--accent); 
+            border-bottom: 1px solid var(--accent); background: rgba(255,184,0,0.05); z-index: 10; 
         }
-        .reel { flex: 1; background: #07070a; position: relative; overflow: hidden; border-radius: 10px; }
-        .symbol { height: 90px; display: flex; align-items: center; justify-content: center; }
-        .symbol img { width: 65px; height: 65px; border-radius: 50%; object-fit: cover; }
+        .reel { flex: 1; background: #07070a; position: relative; overflow: hidden; border-radius: 4px; min-width: 0; }
+        .symbol { height: 80px; display: flex; align-items: center; justify-content: center; }
+        .symbol img { width: 90%; max-width: 55px; border-radius: 50%; object-fit: cover; }
 
-        .canvas-area { 
-            background: #000; border-radius: 20px; height: 350px; position: relative; 
-            overflow: hidden; border: 1px solid #1c1c24; margin-bottom: 20px;
-        }
-        #crashMultiplier { position: absolute; top: 50px; width: 100%; text-align: center; font-size: 55px; font-weight: 900; }
+        /* --- UPGRADER --- */
+        .upgrade-card { display: flex; flex-direction: column; align-items: center; }
+        .visual-box { position: relative; width: 280px; height: 280px; margin-bottom: 20px; background: radial-gradient(circle, #111 0%, #050507 70%); border-radius: 50%; }
+        #upgradeCanvas { width: 100%; height: 100%; position: relative; z-index: 2; }
+        .upgrader-bg-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 120px; opacity: 0.15; z-index: 1; }
+        .orb-path { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; }
+        .orb-triangle { position: absolute; top: -10px; left: calc(50% - 15px); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 25px solid #fff; filter: drop-shadow(0 0 10px var(--accent)); }
+        #upChanceCenter { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 35px; font-weight: 900; z-index: 3; }
+
+        /* --- ROCKET --- */
+        .canvas-area { background: #000; border-radius: 20px; height: 320px; position: relative; overflow: hidden; border: 1px solid #1c1c24; margin-bottom: 15px; }
+        #crashMultiplier { position: absolute; top: 40px; width: 100%; text-align: center; font-size: 50px; font-weight: 900; z-index: 20; }
         .rocket-container { position: absolute; width: 80px; height: 80px; left: calc(50% - 40px); bottom: 20px; }
-        .rocket-img { width: 100%; height: 100%; background: url('rocket.png') no-repeat center; background-size: contain; }
 
-        /* --- CONTROLS --- */
-        .controls-box { display: flex; flex-direction: column; gap: 12px; width: 100%; }
-        .auth-input { 
-            width: 100%; background: #0f0f13; border: 1px solid #25252b; color: #fff; 
-            padding: 18px; border-radius: 15px; font-family: 'Montserrat'; text-align: center; font-size: 16px; 
-        }
-        .btn-main { 
-            width: 100%; padding: 20px; background: linear-gradient(135deg, var(--accent) 0%, #ff8a00 100%); 
-            border: none; border-radius: 15px; color: #000; font-weight: 900; font-size: 16px; 
-            cursor: pointer; text-transform: uppercase; 
-        }
-        .btn-main:disabled { filter: grayscale(1); opacity: 0.5; }
+        /* --- UI ELEMENTS --- */
+        .controls-box { width: 100%; max-width: 400px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+        .auth-input { width: 100%; background: #16161c; border: 1px solid #222; color: #fff; padding: 15px; border-radius: 12px; text-align: center; font-size: 16px; font-family: 'Montserrat'; }
+        .btn-main { width: 100%; padding: 18px; background: linear-gradient(135deg, var(--accent) 0%, #ff8a00 100%); border: none; border-radius: 12px; color: #000; font-weight: 900; font-size: 15px; cursor: pointer; text-transform: uppercase; }
+        .btn-main:disabled { opacity: 0.4; }
 
         /* --- MODALS --- */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; z-index: 10000; justify-content: center; align-items: center; }
-        .modal-card { background: #0f0f13; border: 1px solid #222; width: 90%; max-width: 380px; padding: 40px 25px; border-radius: 30px; text-align: center; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+        .modal-card { background: #0f0f13; border: 1px solid #222; width: 90%; max-width: 350px; padding: 30px; border-radius: 25px; text-align: center; }
 
-        /* UPGRADER */
-        .visual-box { position: relative; width: 280px; height: 280px; margin: 0 auto 20px; }
-        #upgradeCanvas { width: 100%; height: 100%; }
-        .orb-path { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        .orb-triangle { position: absolute; top: -10px; left: calc(50% - 15px); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 25px solid #fff; }
+        #winOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 11000; display: none; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; }
+        .jackpot-text { font-size: 40px; font-weight: 900; color: var(--accent); text-shadow: 0 0 20px orange; }
 
-        @media (max-width: 500px) {
-            .logo { font-size: 12px; }
-            .site-icon { width: 28px; height: 28px; }
-            .bal-val { font-size: 13px; }
-            header { height: 70px; padding: 0 10px; }
-            .container { margin-top: 90px; }
+        @media (min-width: 900px) {
+            .reels-area { height: 400px; }
+            .symbol { height: 150px; }
+            .win-frame { height: 150px; }
+            .logo { font-size: 18px; }
+            header { padding: 0 40px; }
         }
     </style>
 </head>
@@ -130,40 +110,55 @@
     </div>
     <div class="user-section">
         <div class="user-nickname" id="userNameDisp" onclick="openProfile()">...</div>
-        <div class="balance-frame" id="balanceBtn" onclick="openProfile()">
+        <div class="balance-frame" onclick="openDeposit()">
             <span class="bal-val" id="balanceDisplay">0 руб.</span>
         </div>
     </div>
 </header>
 
-<!-- NAV TABS -->
 <div class="nav-tabs" id="navTabs">
     <div class="tab-link active" onclick="switchTab('slots', this)">Слоты</div>
     <div class="tab-link" onclick="switchTab('upgrader', this)">Апгрейд</div>
     <div class="tab-link" onclick="switchTab('rocket', this)">Ракетка</div>
 </div>
 
+<!-- AUTH MODAL -->
 <div class="modal-overlay" id="authModal" style="display: flex;">
     <div class="modal-card">
-        <h2 style="margin-top:0;">ВХОД</h2>
-        <input type="text" id="authName" class="auth-input" placeholder="НИКНЕЙМ" style="margin-bottom:10px;">
-        <input type="password" id="authPass" class="auth-input" placeholder="ПАРОЛЬ" style="margin-bottom:20px;">
+        <h2 style="margin-top:0">ВХОД</h2>
+        <input type="text" id="authName" class="auth-input" placeholder="НИКНЕЙМ" style="margin-bottom:10px">
+        <input type="password" id="authPass" class="auth-input" placeholder="ПАРОЛЬ" style="margin-bottom:20px">
         <button class="btn-main" onclick="handleLogin()">ИГРАТЬ</button>
     </div>
 </div>
 
+<!-- PROFILE MODAL -->
 <div class="modal-overlay" id="profileModal" onclick="this.style.display='none'">
     <div class="modal-card" onclick="event.stopPropagation()">
         <h3 id="profName">ПРОФИЛЬ</h3>
+        <p id="profStats" style="font-size:12px; color:#777"></p>
         <button class="btn-main" style="background:#222; color:#fff;" onclick="logout()">ВЫЙТИ</button>
     </div>
 </div>
+
+<!-- DEPOSIT MODAL -->
+<div class="modal-overlay" id="depositModal" onclick="this.style.display='none'">
+    <div class="modal-card" onclick="event.stopPropagation()">
+        <h3>ПОПОЛНЕНИЕ</h3>
+        <p style="font-size:13px; color:#aaa; margin-bottom:20px;">Вы можете восстановить баланс до 10 000 руб., если он ниже этой суммы.</p>
+        <button class="btn-main" onclick="handleDeposit()">ПОПОЛНИТЬ</button>
+    </div>
+</div>
+
+<div id="winOverlay"><div class="jackpot-text" id="jackTitle">JACKPOT</div><div id="jackAmt" style="color:#fff; font-size:30px; font-weight:900;">x512</div></div>
 
 <div class="container">
     <!-- SLOTS -->
     <div id="slots" class="page active">
         <div class="reels-area">
             <div class="win-frame"></div>
+            <div class="reel"><div class="reel-strip"></div></div>
+            <div class="reel"><div class="reel-strip"></div></div>
             <div class="reel"><div class="reel-strip"></div></div>
             <div class="reel"><div class="reel-strip"></div></div>
             <div class="reel"><div class="reel-strip"></div></div>
@@ -178,16 +173,19 @@
 
     <!-- UPGRADER -->
     <div id="upgrader" class="page">
-        <div class="visual-box">
-            <canvas id="upgradeCanvas" width="400" height="400"></canvas>
-            <div class="orb-path" id="orbPath"><div class="orb-triangle"></div></div>
-            <div id="upChanceCenter" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:30px; font-weight:900;">50%</div>
-        </div>
-        <div class="controls-box">
-            <input type="number" id="upAmount" value="500" class="auth-input" oninput="drawUpgrade()">
-            <input type="range" id="upRange" min="1" max="85" value="50" oninput="drawUpgrade()" style="width:100%; accent-color: var(--accent);">
-            <div id="upPayout" style="color:var(--success); font-size:20px; font-weight:900; text-align:center;">950 руб.</div>
-            <button class="btn-main" id="upBtn" onclick="startUpgrade()">Улучшить</button>
+        <div class="upgrade-card">
+            <div class="visual-box">
+                <img src="icon.png" class="upgrader-bg-icon">
+                <canvas id="upgradeCanvas" width="400" height="400"></canvas>
+                <div class="orb-path" id="orbPath"><div class="orb-triangle"></div></div>
+                <div id="upChanceCenter">50%</div>
+            </div>
+            <div class="controls-box">
+                <input type="number" id="upAmount" value="500" class="auth-input" oninput="drawUpgrade()">
+                <input type="range" id="upRange" min="1" max="80" value="50" oninput="drawUpgrade()" style="width:100%; margin: 10px 0;">
+                <div id="upPayout" style="color:var(--success); font-size:20px; font-weight:900; text-align:center; margin-bottom:10px;">950 руб.</div>
+                <button class="btn-main" id="upBtn" onclick="startUpgrade()">Улучшить</button>
+            </div>
         </div>
     </div>
 
@@ -195,7 +193,7 @@
     <div id="rocket" class="page">
         <div class="canvas-area">
             <div id="crashMultiplier">x1.00</div>
-            <div id="rocketContainer" class="rocket-container"><div class="rocket-img"></div></div>
+            <div id="rocketContainer" class="rocket-container"><div class="rocket-img" style="width:100%; height:100%; background:url('rocket.png') no-repeat center; background-size:contain;"></div></div>
         </div>
         <div class="controls-box">
             <input type="number" id="crashBet" value="100" class="auth-input">
@@ -216,14 +214,13 @@
     async function handleLogin() {
         const name = document.getElementById('authName').value.trim().toLowerCase();
         const pass = document.getElementById('authPass').value;
-        if(!name || !pass) return alert("Заполни поля");
-
+        if(!name || !pass) return;
         let { data } = await sb.from('players').select('*').eq('username', name).single();
         if(!data) {
-            const { data: newUser } = await sb.from('players').insert([{ username: name, password: pass, balance: 10000, total_won: 0, total_lost: 0 }]).select().single();
+            const { data: newUser } = await sb.from('players').insert([{ username: name, password: pass, balance: 10000, total_won:0, total_lost:0 }]).select().single();
             user = newUser;
         } else {
-            if(data.password !== pass) return alert("Ошибка пароля");
+            if(data.password !== pass) return alert("Неверный пароль");
             user = data;
         }
         localStorage.setItem('ebych_session_name', name);
@@ -240,8 +237,6 @@
     }
     checkAuth();
 
-    function logout() { localStorage.removeItem('ebych_session_name'); location.reload(); }
-
     function updateUI() {
         if(!user) return;
         document.getElementById('userNameDisp').innerText = user.username;
@@ -254,20 +249,25 @@
         await sb.from('players').update({ balance: user.balance }).eq('username', user.username);
     }
 
-    function switchTab(id, el) {
-        if(isGameRunning) return;
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.tab-link').forEach(l => l.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        el.classList.add('active');
-        if(id==='upgrader') drawUpgrade();
+    function logout() { localStorage.removeItem('ebych_session_name'); location.reload(); }
+    function openProfile() { document.getElementById('profName').innerText = user.username; document.getElementById('profileModal').style.display = 'flex'; }
+    function openDeposit() { document.getElementById('depositModal').style.display = 'flex'; }
+
+    async function handleDeposit() {
+        if(user.balance < 10000) {
+            await sync(10000 - user.balance);
+            alert("Баланс пополнен!");
+        } else {
+            alert("У вас уже больше 10 000 руб.");
+        }
+        document.getElementById('depositModal').style.display = 'none';
     }
 
-    // SLOTS
+    // --- SLOTS ---
     function initStrips() {
         document.querySelectorAll('.reel-strip').forEach(s => {
             s.innerHTML = '';
-            for(let i=0; i<105; i++) {
+            for(let i=0; i<110; i++) {
                 let d = document.createElement('div'); d.className='symbol';
                 let img = document.createElement('img'); img.src = textures[Math.floor(Math.random()*4)];
                 d.appendChild(img); s.appendChild(d);
@@ -278,100 +278,92 @@
 
     async function startSlots() {
         const bet = parseInt(document.getElementById('slotBet').value);
-        if(bet > user.balance || bet <= 0) return alert("Недостаточно баланса");
-        
-        lockUI(true);
-        await sync(-bet);
-        
+        if(!bet || bet > user.balance || bet <= 0) return;
+        lockUI(true); await sync(-bet);
         const res = [];
         const strips = document.querySelectorAll('.reel-strip');
+        const sH = strips[0].firstElementChild.clientHeight;
         strips.forEach((s, i) => {
-            const winVal = Math.floor(Math.random()*4);
-            res.push(winVal);
-            s.children[100].querySelector('img').src = textures[winVal];
+            const w = Math.floor(Math.random()*4); res.push(w);
+            s.children[101].querySelector('img').src = textures[w];
             s.style.transition = 'none'; s.style.transform = 'translateY(0)';
             void s.offsetWidth;
-            s.style.transition = `transform ${2 + (i*0.5)}s cubic-bezier(0.1, 0, 0, 1)`;
-            s.style.transform = `translateY(-9000px)`;
+            s.style.transition = `transform ${3 + (i * 0.5)}s cubic-bezier(0.1, 0, 0, 1)`;
+            s.style.transform = `translateY(-${100 * sH}px)`;
         });
-
         setTimeout(async () => {
             lockUI(false);
-            const c = {}; res.forEach(x => c[x] = (c[x]||0)+1);
+            const c = {}; res.forEach(v => c[v] = (c[v]||0)+1);
             const max = Math.max(...Object.values(c));
-            if(max >= 3) {
-                let win = bet * (max === 3 ? 2 : max === 4 ? 10 : 50);
-                await sync(win);
-                alert("Победа: " + win + " руб.");
+            let m = 0;
+            if(max === 4) m = 2;
+            else if(max === 5) m = 8;
+            else if(max === 6) m = 128;
+            else if(max === 7) m = 512;
+            if(m > 0) {
+                let win = bet * m; await sync(win);
+                if(m >= 128) {
+                    document.getElementById('jackAmt').innerText = "x"+m;
+                    document.getElementById('winOverlay').style.display='flex';
+                    setTimeout(()=>document.getElementById('winOverlay').style.display='none', 3000);
+                } else { alert("Победа: " + win + " руб."); }
             }
-        }, 4500);
+        }, 6500);
     }
 
-    // UPGRADER
+    // --- UPGRADER ---
     const canvas = document.getElementById('upgradeCanvas'), ctx = canvas.getContext('2d');
     function drawUpgrade() {
-        const c = document.getElementById('upRange').value;
-        const a = parseInt(document.getElementById('upAmount').value)||0;
+        const c = document.getElementById('upRange').value, a = parseInt(document.getElementById('upAmount').value)||0;
         document.getElementById('upChanceCenter').innerText = c+'%';
         document.getElementById('upPayout').innerText = Math.floor(a*(100/c*0.95)) + " руб.";
         ctx.clearRect(0,0,400,400);
         ctx.beginPath(); ctx.arc(200,200,180,0,Math.PI*2); ctx.strokeStyle='#1a1a20'; ctx.lineWidth=20; ctx.stroke();
         ctx.beginPath(); ctx.arc(200,200,180,-Math.PI/2, (-Math.PI/2) + (Math.PI*2)*(c/100)); ctx.strokeStyle='#ffb800'; ctx.lineWidth=20; ctx.stroke();
     }
-
     async function startUpgrade() {
         const a = parseInt(document.getElementById('upAmount').value), c = parseInt(document.getElementById('upRange').value);
-        if(a > user.balance || a <= 0) return;
+        if(!a || a > user.balance || a <= 0) return;
         lockUI(true); await sync(-a);
         const target = (360 * 5) + (Math.random() * 360);
-        const orb = document.getElementById('orbPath');
-        orb.animate([{transform:'rotate(0deg)'}, {transform:`rotate(${target}deg)`}], {duration:3000, easing:'cubic-bezier(0.2,0,0,1)', fill:'forwards'});
+        document.getElementById('orbPath').animate([{transform:'rotate(0deg)'}, {transform:`rotate(${target}deg)`}], {duration:3000, easing:'cubic-bezier(0.2,0,0,1)', fill:'forwards'});
         setTimeout(async () => {
-            if((target % 360) <= (c/100*360)) {
-                let w = Math.floor(a*(100/c*0.95));
-                await sync(w);
-            }
+            if((target % 360) <= (c/100*360)) { await sync(Math.floor(a*(100/c*0.95))); }
             lockUI(false);
         }, 3200);
     }
 
-    // ROCKET
-    let crActive = false, crInt, crM = 1.0;
+    // --- ROCKET ---
+    let crA = false, crInt, crM = 1.0;
     async function toggleCrash() {
         const bet = parseInt(document.getElementById('crashBet').value);
-        if(!crActive) {
-            if(bet > user.balance || bet <= 0) return;
+        if(!crA) {
+            if(!bet || bet > user.balance || bet <= 0) return;
             lockUI(true); await sync(-bet);
-            crActive = true; crM = 1.0;
-            let boom = (100 / (100 - Math.random() * 97));
+            crA = true; crM = 1.0;
+            let boom = (100 / (100 - Math.random() * 96));
             document.getElementById('crashBtn').innerText = "ЗАБРАТЬ";
             crInt = setInterval(() => {
-                crM += 0.01 * (crM);
+                crM += 0.01 * crM;
                 document.getElementById('crashMultiplier').innerText = "x" + crM.toFixed(2);
-                document.getElementById('rocketContainer').style.bottom = Math.min(250, 20 + (crM * 10)) + "px";
+                document.getElementById('rocketContainer').style.bottom = Math.min(220, 20 + (crM * 15)) + "px";
                 if(crM >= boom) {
-                    clearInterval(crInt); crActive = false;
+                    clearInterval(crInt); crA = false;
                     document.getElementById('crashMultiplier').innerText = "BOOM";
-                    setTimeout(() => { lockUI(false); document.getElementById('crashBtn').innerText = "ВЗЛЕТ"; }, 2000);
+                    setTimeout(() => { lockUI(false); document.getElementById('crashBtn').innerText = "ВЗЛЕТ"; }, 1500);
                 }
             }, 50);
         } else {
-            clearInterval(crInt); crActive = false;
-            let w = Math.floor(bet * crM);
-            await sync(w);
+            clearInterval(crInt); crA = false;
+            await sync(Math.floor(bet * crM));
             document.getElementById('crashBtn').innerText = "ВЗЛЕТ";
             lockUI(false);
         }
     }
 
-    function lockUI(s) { 
-        isGameRunning = s; 
-        document.getElementById('spinBtn').disabled = s;
-        document.getElementById('upBtn').disabled = s;
-        document.getElementById('navTabs').style.opacity = s ? "0.5" : "1";
-    }
+    function lockUI(s) { isGameRunning = s; document.getElementById('navTabs').style.opacity = s ? "0.3" : "1"; document.getElementById('spinBtn').disabled = s; document.getElementById('upBtn').disabled = s; }
+    function switchTab(id, el) { if(isGameRunning) return; document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); document.querySelectorAll('.tab-link').forEach(l => l.classList.remove('active')); document.getElementById(id).classList.add('active'); el.classList.add('active'); if(id==='upgrader') drawUpgrade(); }
 
-    function openProfile() { document.getElementById('profileModal').style.display='flex'; }
     drawUpgrade();
 </script>
 </body>
