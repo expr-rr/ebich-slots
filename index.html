@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ЁБЫЧ SLOTS | FINAL</title>
+    <title>ЁБЫЧ SLOTS | FINAL EDITION</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
@@ -31,14 +31,20 @@
         .logo span { color: var(--accent); }
 
         .user-section { display: flex; align-items: center; gap: 10px; }
-        .user-nickname { color: #888; font-size: 11px; text-transform: uppercase; border-bottom: 1px solid #333; cursor: pointer; }
+        .user-nickname { 
+            color: #888; font-size: 11px; text-transform: uppercase; 
+            border-bottom: 1px solid var(--danger); cursor: pointer; 
+            transition: 0.3s;
+        }
+        .user-nickname:hover { color: var(--danger); }
+        
         .balance-frame { 
             background: #16161c; padding: 8px 15px; border-radius: 10px; border: 1px solid #222; 
             cursor: pointer; position: relative;
         }
         .bal-val { font-weight: 400; color: #ffffff; font-size: 14px; }
 
-        /* Всплывающее уведомление баланса (Белое, снизу) */
+        /* Всплывающее уведомление баланса (Всегда белое, снизу) */
         .bal-float {
             position: absolute; left: 50%; transform: translateX(-50%);
             bottom: -30px; color: #ffffff !important; font-weight: 700; font-size: 13px;
@@ -47,11 +53,11 @@
         }
         @keyframes floatUpBottom {
             0% { opacity: 0; bottom: -30px; }
-            20% { opacity: 1; }
-            100% { opacity: 0; bottom: 15px; }
+            30% { opacity: 1; }
+            100% { opacity: 0; bottom: 20px; }
         }
 
-        /* --- NAV --- */
+        /* --- NAVIGATION --- */
         .nav-tabs { 
             position: fixed; bottom: 0; left: 0; width: 100%; height: 65px;
             background: #0f0f13; display: flex; justify-content: space-around; 
@@ -74,21 +80,21 @@
         .symbol img { width: 90%; max-width: 40px; border-radius: 50%; object-fit: cover; }
 
         /* --- UPGRADER --- */
-        .visual-box { position: relative; width: 320px; height: 320px; margin: 0 auto 20px; background: radial-gradient(circle, #1a1a24 0%, #050507 85%); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid #222; }
+        .visual-box { position: relative; width: 300px; height: 300px; margin: 0 auto 20px; background: radial-gradient(circle, #1a1a24 0%, #050507 85%); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid #222; }
         #upgradeCanvas { width: 100%; height: 100%; z-index: 2; position: relative; transform: rotate(-90deg); }
-        .upgrader-bg-icon { position: absolute; width: 140px; opacity: 0.1; z-index: 1; }
-        .orb-path { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; transform: rotate(0deg); }
-        .orb-triangle { position: absolute; top: -12px; left: calc(50% - 15px); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 25px solid #fff; filter: drop-shadow(0 0 10px var(--accent)); }
-        #upChanceCenter { position: absolute; font-size: 42px; font-weight: 900; z-index: 3; color: #fff; text-shadow: 0 0 20px #000; }
+        .upgrader-bg-icon { position: absolute; width: 150px; opacity: 0.15; z-index: 1; }
+        .orb-path { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; }
+        .orb-triangle { position: absolute; top: -10px; left: calc(50% - 15px); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 25px solid #fff; filter: drop-shadow(0 0 10px var(--accent)); }
+        #upChanceCenter { position: absolute; font-size: 38px; font-weight: 900; z-index: 3; color: #fff; text-shadow: 0 0 20px #000; }
 
         /* --- ROCKET --- */
         .canvas-area { background: #000; border-radius: 20px; height: 420px; position: relative; overflow: hidden; border: 1px solid #1c1c24; margin-bottom: 15px; background-image: radial-gradient(#111 1px, transparent 1px); background-size: 40px 40px; }
         #crashMultiplier { position: absolute; top: 70px; width: 100%; text-align: center; font-size: 60px; font-weight: 900; z-index: 20; }
         .rocket-container { position: absolute; width: 150px; height: 150px; left: calc(50% - 75px); bottom: 20px; z-index: 15; }
-        .rocket-img { width: 100%; height: 100%; background: url('rocket.png') no-repeat center; background-size: contain; transition: transform 0.2s ease; }
-        .rocket-fly-away { transition: transform 2s cubic-bezier(0.4, 0, 1, 1), bottom 2s cubic-bezier(0.4, 0, 1, 1) !important; transform: translateY(-1200px) translateX(350px) rotate(45deg) scale(0.3) !important; }
+        .rocket-img { width: 100%; height: 100%; background: url('rocket.png') no-repeat center; background-size: contain; }
+        .rocket-fly-away { transition: transform 2.5s cubic-bezier(0.4, 0, 1, 1), bottom 2.5s cubic-bezier(0.4, 0, 1, 1) !important; transform: translateY(-1300px) translateX(400px) rotate(60deg) scale(0.2) !important; }
 
-        /* --- BUTTONS --- */
+        /* --- UI --- */
         .controls-box { width: 100%; max-width: 400px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
         .auth-input { width: 100%; background: #16161c; border: 1px solid #222; color: #fff; padding: 16px; border-radius: 14px; text-align: center; font-size: 16px; font-family: 'Montserrat'; }
         .btn-main { width: 100%; padding: 20px; background: linear-gradient(135deg, var(--accent) 0%, #ff8a00 100%); border: none; border-radius: 14px; color: #000; font-weight: 900; font-size: 15px; cursor: pointer; text-transform: uppercase; }
@@ -107,7 +113,7 @@
         <div class="logo">ЁБЫЧ <span>SLOTS</span></div>
     </div>
     <div class="user-section">
-        <div class="user-nickname" id="userNameDisp" onclick="location.reload()">...</div>
+        <div class="user-nickname" id="userNameDisp" onclick="logout()">...</div>
         <div class="balance-frame" onclick="deposit10k()">
             <span class="bal-val" id="balanceDisplay">0 руб.</span>
             <div id="floatContainer"></div>
@@ -121,9 +127,10 @@
     <div class="tab-link" onclick="switchTab('rocket', this)">Ракетка</div>
 </div>
 
+<!-- ВХОД -->
 <div class="modal-overlay" id="authModal" style="display: flex;">
     <div class="modal-card">
-        <h2 style="margin-top:0">ВХОД</h2>
+        <h2>ВХОД</h2>
         <input type="text" id="authName" class="auth-input" placeholder="НИКНЕЙМ" style="margin-bottom:10px">
         <input type="password" id="authPass" class="auth-input" placeholder="ПАРОЛЬ" style="margin-bottom:20px">
         <button class="btn-main" onclick="handleLogin()">ИГРАТЬ</button>
@@ -211,6 +218,11 @@
     }
     checkAuth();
 
+    function logout() {
+        localStorage.removeItem('ebych_session_name');
+        location.reload();
+    }
+
     function updateUI(diff = 0) {
         if(!user) return;
         document.getElementById('userNameDisp').innerText = user.username;
@@ -280,9 +292,7 @@
         document.getElementById('upChanceCenter').innerText = c+'%';
         document.getElementById('upPayout').innerText = Math.floor(a*(100/c*0.95)) + " руб.";
         ctx.clearRect(0,0,400,400);
-        // Фон
         ctx.beginPath(); ctx.arc(200,200,180,0,Math.PI*2); ctx.strokeStyle='#1a1a20'; ctx.lineWidth=25; ctx.stroke();
-        // Зона выигрыша (Желтая)
         ctx.beginPath(); ctx.arc(200,200,180,0, (Math.PI*2)*(c/100)); ctx.strokeStyle='#ffb800'; ctx.lineWidth=25; ctx.stroke();
     }
 
@@ -309,12 +319,14 @@
             if(!b || b > user.balance || b <= 0) return;
             lockUI(true); await sync(-b);
             crA = true; crCan = true; crM = 1.0;
-            let boom = (100 / (100 - Math.random() * 97));
+            // УСЛОЖНЕННАЯ МАТЕМАТИКА (House Edge)
+            let boom = (96 / (100 - Math.random() * 99.5)); 
+            if(boom < 1) boom = 1.0;
             btn.innerText = "ЗАБРАТЬ"; btn.classList.add('btn-danger'); btn.disabled = false;
             crInt = setInterval(() => {
-                crM += 0.008 * Math.sqrt(crM);
+                crM += 0.009 * Math.pow(crM, 1.05);
                 document.getElementById('crashMultiplier').innerText = "x" + crM.toFixed(2);
-                r.style.bottom = Math.min(300, 20 + (crM * 25)) + "px";
+                r.style.bottom = Math.min(300, 20 + (crM * 20)) + "px";
                 if(crM >= boom) {
                     clearInterval(crInt); crCan = false;
                     document.getElementById('crashMultiplier').innerText = "УЛЕТЕЛА!";
