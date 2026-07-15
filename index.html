@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ЁБЫЧ SLOTS | ULTIMATE V2</title>
+    <title>ЁБЫЧ SLOTS | FINAL</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
@@ -30,23 +30,28 @@
         .logo { font-weight: 900; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; }
         .logo span { color: var(--accent); }
 
+        .user-section { display: flex; align-items: center; gap: 10px; }
+        .user-nickname { color: #888; font-size: 11px; text-transform: uppercase; border-bottom: 1px solid #333; cursor: pointer; }
         .balance-frame { 
-            background: #16161c; padding: 8px 12px; border-radius: 10px; border: 1px solid #222; 
+            background: #16161c; padding: 8px 15px; border-radius: 10px; border: 1px solid #222; 
             cursor: pointer; position: relative;
         }
         .bal-val { font-weight: 400; color: #ffffff; font-size: 14px; }
 
+        /* Всплывающее уведомление баланса (Белое, снизу) */
         .bal-float {
-            position: absolute; right: 0; top: -20px; font-weight: 900; font-size: 14px;
-            pointer-events: none; animation: floatUp 1.5s forwards;
+            position: absolute; left: 50%; transform: translateX(-50%);
+            bottom: -30px; color: #ffffff !important; font-weight: 700; font-size: 13px;
+            pointer-events: none; animation: floatUpBottom 1.2s ease-out forwards;
+            white-space: nowrap; z-index: 100;
         }
-        @keyframes floatUp {
-            0% { opacity: 0; transform: translateY(0); }
+        @keyframes floatUpBottom {
+            0% { opacity: 0; bottom: -30px; }
             20% { opacity: 1; }
-            100% { opacity: 0; transform: translateY(-40px); }
+            100% { opacity: 0; bottom: 15px; }
         }
 
-        /* --- NAV (BOTTOM) --- */
+        /* --- NAV --- */
         .nav-tabs { 
             position: fixed; bottom: 0; left: 0; width: 100%; height: 65px;
             background: #0f0f13; display: flex; justify-content: space-around; 
@@ -56,48 +61,34 @@
         .tab-link { color: #555; cursor: pointer; font-weight: 700; text-transform: uppercase; font-size: 10px; }
         .tab-link.active { color: var(--accent); border-bottom: 2px solid var(--accent); padding-bottom: 5px; }
 
-        /* --- CONTAINER --- */
         .container { margin-top: 90px; padding: 10px; padding-bottom: 90px; display: flex; justify-content: center; }
         .page { display: none; width: 100%; max-width: 800px; animation: fadeIn 0.3s ease; }
         .page.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* --- 7 REELS SLOTS --- */
-        .reels-area { 
-            position: relative; display: flex; gap: 2px; justify-content: center; 
-            background: #000; padding: 5px; border-radius: 15px; margin-bottom: 20px; 
-            overflow: hidden; height: 220px; border: 1px solid #1c1c24;
-        }
-        .win-frame { 
-            position: absolute; top: 50%; left: 0; width: 100%; height: 65px; 
-            transform: translateY(-50%); border-top: 1px solid var(--accent); 
-            border-bottom: 1px solid var(--accent); background: rgba(255,184,0,0.05); z-index: 10; 
-        }
+        /* --- SLOTS --- */
+        .reels-area { position: relative; display: flex; gap: 2px; justify-content: center; background: #000; padding: 5px; border-radius: 15px; margin-bottom: 20px; overflow: hidden; height: 220px; border: 1px solid #1c1c24; }
+        .win-frame { position: absolute; top: 50%; left: 0; width: 100%; height: 65px; transform: translateY(-50%); border-top: 1px solid var(--accent); border-bottom: 1px solid var(--accent); background: rgba(255,184,0,0.05); z-index: 10; }
         .reel { flex: 1; background: #07070a; position: relative; overflow: hidden; }
         .symbol { height: 65px; display: flex; align-items: center; justify-content: center; }
         .symbol img { width: 90%; max-width: 40px; border-radius: 50%; object-fit: cover; }
 
         /* --- UPGRADER --- */
-        .visual-box { position: relative; width: 300px; height: 300px; margin: 0 auto 20px; background: radial-gradient(circle, #1a1a24 0%, #050507 85%); border-radius: 50%; border: 1px solid #1c1c24; }
-        #upgradeCanvas { width: 100%; height: 100%; z-index: 2; position: relative; }
-        .upgrader-bg-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 160px; opacity: 0.15; z-index: 1; }
-        .orb-path { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; }
-        .orb-triangle { position: absolute; top: -10px; left: calc(50% - 15px); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 25px solid #fff; filter: drop-shadow(0 0 10px var(--accent)); }
-        #upChanceCenter { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 38px; font-weight: 900; z-index: 3; text-shadow: 0 0 15px rgba(0,0,0,0.8); }
+        .visual-box { position: relative; width: 320px; height: 320px; margin: 0 auto 20px; background: radial-gradient(circle, #1a1a24 0%, #050507 85%); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid #222; }
+        #upgradeCanvas { width: 100%; height: 100%; z-index: 2; position: relative; transform: rotate(-90deg); }
+        .upgrader-bg-icon { position: absolute; width: 140px; opacity: 0.1; z-index: 1; }
+        .orb-path { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; transform: rotate(0deg); }
+        .orb-triangle { position: absolute; top: -12px; left: calc(50% - 15px); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 25px solid #fff; filter: drop-shadow(0 0 10px var(--accent)); }
+        #upChanceCenter { position: absolute; font-size: 42px; font-weight: 900; z-index: 3; color: #fff; text-shadow: 0 0 20px #000; }
 
         /* --- ROCKET --- */
         .canvas-area { background: #000; border-radius: 20px; height: 420px; position: relative; overflow: hidden; border: 1px solid #1c1c24; margin-bottom: 15px; background-image: radial-gradient(#111 1px, transparent 1px); background-size: 40px 40px; }
         #crashMultiplier { position: absolute; top: 70px; width: 100%; text-align: center; font-size: 60px; font-weight: 900; z-index: 20; }
         .rocket-container { position: absolute; width: 150px; height: 150px; left: calc(50% - 75px); bottom: 20px; z-index: 15; }
         .rocket-img { width: 100%; height: 100%; background: url('rocket.png') no-repeat center; background-size: contain; transition: transform 0.2s ease; }
-        
-        /* Анимация улета */
-        .rocket-fly-away { 
-            transition: transform 2s cubic-bezier(0.4, 0, 1, 1), bottom 2s cubic-bezier(0.4, 0, 1, 1) !important;
-            transform: translateY(-1200px) translateX(300px) rotate(45deg) scale(0.5) !important;
-        }
+        .rocket-fly-away { transition: transform 2s cubic-bezier(0.4, 0, 1, 1), bottom 2s cubic-bezier(0.4, 0, 1, 1) !important; transform: translateY(-1200px) translateX(350px) rotate(45deg) scale(0.3) !important; }
 
-        /* --- UI --- */
+        /* --- BUTTONS --- */
         .controls-box { width: 100%; max-width: 400px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
         .auth-input { width: 100%; background: #16161c; border: 1px solid #222; color: #fff; padding: 16px; border-radius: 14px; text-align: center; font-size: 16px; font-family: 'Montserrat'; }
         .btn-main { width: 100%; padding: 20px; background: linear-gradient(135deg, var(--accent) 0%, #ff8a00 100%); border: none; border-radius: 14px; color: #000; font-weight: 900; font-size: 15px; cursor: pointer; text-transform: uppercase; }
@@ -116,6 +107,7 @@
         <div class="logo">ЁБЫЧ <span>SLOTS</span></div>
     </div>
     <div class="user-section">
+        <div class="user-nickname" id="userNameDisp" onclick="location.reload()">...</div>
         <div class="balance-frame" onclick="deposit10k()">
             <span class="bal-val" id="balanceDisplay">0 руб.</span>
             <div id="floatContainer"></div>
@@ -131,7 +123,7 @@
 
 <div class="modal-overlay" id="authModal" style="display: flex;">
     <div class="modal-card">
-        <h2>ВХОД</h2>
+        <h2 style="margin-top:0">ВХОД</h2>
         <input type="text" id="authName" class="auth-input" placeholder="НИКНЕЙМ" style="margin-bottom:10px">
         <input type="password" id="authPass" class="auth-input" placeholder="ПАРОЛЬ" style="margin-bottom:20px">
         <button class="btn-main" onclick="handleLogin()">ИГРАТЬ</button>
@@ -139,6 +131,7 @@
 </div>
 
 <div class="container">
+    <!-- SLOTS -->
     <div id="slots" class="page active">
         <div class="reels-area">
             <div class="win-frame"></div>
@@ -156,6 +149,7 @@
         </div>
     </div>
 
+    <!-- UPGRADER -->
     <div id="upgrader" class="page">
         <div class="visual-box">
             <img src="icon.png" class="upgrader-bg-icon">
@@ -171,6 +165,7 @@
         </div>
     </div>
 
+    <!-- ROCKET -->
     <div id="rocket" class="page">
         <div class="canvas-area">
             <div id="crashMultiplier">x1.00</div>
@@ -218,13 +213,13 @@
 
     function updateUI(diff = 0) {
         if(!user) return;
+        document.getElementById('userNameDisp').innerText = user.username;
         document.getElementById('balanceDisplay').innerText = Math.floor(user.balance).toLocaleString() + " руб.";
         if(diff !== 0) {
             const f = document.createElement('div'); f.className = 'bal-float';
-            f.style.color = diff > 0 ? 'var(--success)' : 'var(--danger)';
             f.innerText = (diff > 0 ? '+' : '') + Math.floor(diff) + ' руб.';
             document.getElementById('floatContainer').appendChild(f);
-            setTimeout(() => f.remove(), 1500);
+            setTimeout(() => f.remove(), 1200);
         }
     }
 
@@ -260,14 +255,12 @@
         if(!bet || bet > user.balance || bet <= 0) return;
         lockUI(true); await sync(-bet);
         const res = [];
-        const strips = document.querySelectorAll('.reel-strip');
-        const sH = strips[0].firstElementChild.clientHeight;
+        const strips = document.querySelectorAll('.reel-strip'), sH = strips[0].firstElementChild.clientHeight;
         strips.forEach((s, i) => {
             const w = Math.floor(Math.random()*4); res.push(w);
             s.children[101].querySelector('img').src = textures[w];
             s.style.transition = 'none'; s.style.transform = 'translateY(0)';
             void s.offsetWidth;
-            // ИНТРИГА: Увеличен интервал между остановками (0.8s)
             s.style.transition = `transform ${2 + (i * 0.8)}s cubic-bezier(0.1, 0, 0, 1)`;
             s.style.transform = `translateY(-${100 * sH}px)`;
         });
@@ -287,12 +280,10 @@
         document.getElementById('upChanceCenter').innerText = c+'%';
         document.getElementById('upPayout').innerText = Math.floor(a*(100/c*0.95)) + " руб.";
         ctx.clearRect(0,0,400,400);
-        // Задний фон
-        ctx.beginPath(); ctx.arc(200,200,180,0,Math.PI*2); ctx.strokeStyle='#1a1a20'; ctx.lineWidth=20; ctx.stroke();
-        // Сектор вероятности
-        ctx.beginPath(); 
-        ctx.arc(200,200,180,-Math.PI/2, (-Math.PI/2) + (Math.PI*2)*(c/100)); 
-        ctx.strokeStyle='var(--accent)'; ctx.lineWidth=20; ctx.stroke();
+        // Фон
+        ctx.beginPath(); ctx.arc(200,200,180,0,Math.PI*2); ctx.strokeStyle='#1a1a20'; ctx.lineWidth=25; ctx.stroke();
+        // Зона выигрыша (Желтая)
+        ctx.beginPath(); ctx.arc(200,200,180,0, (Math.PI*2)*(c/100)); ctx.strokeStyle='#ffb800'; ctx.lineWidth=25; ctx.stroke();
     }
 
     async function startUpgrade() {
@@ -304,7 +295,7 @@
         orb.style.transition = 'transform 3.5s cubic-bezier(0.15, 0, 0.1, 1)';
         orb.style.transform = `rotate(${target}deg)`;
         setTimeout(async () => {
-            if((target % 360) <= (c/100*360)) await sync(Math.floor(a*(100/c*0.95)));
+            if((target % 360) <= (c/100 * 360)) await sync(Math.floor(a*(100/c*0.95)));
             orb.style.transition = 'none'; orb.style.transform = 'rotate(0deg)';
             lockUI(false);
         }, 4000);
@@ -327,8 +318,7 @@
                 if(crM >= boom) {
                     clearInterval(crInt); crCan = false;
                     document.getElementById('crashMultiplier').innerText = "УЛЕТЕЛА!";
-                    document.getElementById('crashMultiplier').style.color = "var(--danger)";
-                    r.classList.add('rocket-fly-away'); // ЭФФЕКТ УЛЕТА
+                    r.classList.add('rocket-fly-away');
                     btn.disabled = true;
                     setTimeout(resetRocket, 2500);
                 }
@@ -338,7 +328,6 @@
             crCan = false; clearInterval(crInt);
             await sync(Math.floor(b * crM));
             document.getElementById('crashMultiplier').innerText = "В КАРМАНЕ!";
-            document.getElementById('crashMultiplier').style.color = "var(--success)";
             btn.disabled = true;
             setTimeout(resetRocket, 1500);
         }
@@ -349,7 +338,6 @@
         r.classList.remove('rocket-fly-away');
         r.style.transition = 'none'; r.style.bottom = '20px';
         document.getElementById('crashMultiplier').innerText = "x1.00";
-        document.getElementById('crashMultiplier').style.color = "#fff";
         btn.innerText = "ВЗЛЕТ"; btn.classList.remove('btn-danger'); btn.disabled = false;
         crA = false; lockUI(false);
     }
@@ -361,7 +349,6 @@
         document.getElementById(id).classList.add('active'); el.classList.add('active');
         if(id==='upgrader') drawUpgrade();
     }
-
     drawUpgrade();
 </script>
 </body>
